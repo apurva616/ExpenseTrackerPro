@@ -1,5 +1,3 @@
-console.log("Register.js loaded");
-
 const registerForm = document.getElementById("registerForm");
 
 registerForm.addEventListener("submit", async function (event) {
@@ -10,33 +8,41 @@ registerForm.addEventListener("submit", async function (event) {
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value.trim();
 
+    if (!name || !email || !password) {
+        alert("Please fill in all fields.");
+        return;
+    }
+
     try {
 
-        const response = await fetch("http://127.0.0.1:5000/register", {
+        const response = await fetch("/register", {
+
             method: "POST",
+
             headers: {
                 "Content-Type": "application/json"
             },
+
             body: JSON.stringify({
                 name,
                 email,
                 password
             })
-        });
 
-        console.log(response);
+        });
 
         const data = await response.json();
 
-        console.log(data);
-
         alert(data.message);
+
+        registerForm.reset();
 
     } catch (error) {
 
         console.error(error);
 
-        alert("Fetch failed");
+        alert("Something went wrong.");
+
     }
 
 });

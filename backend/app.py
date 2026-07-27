@@ -1,5 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 
+from werkzeug.security import generate_password_hash
+
 from database import get_connection
 from models import create_tables
 
@@ -48,6 +50,8 @@ def register():
     email = data["email"]
     password = data["password"]
 
+    hashed_password = generate_password_hash(password)
+
     connection = get_connection()
 
     cursor = connection.cursor()
@@ -57,7 +61,7 @@ def register():
         INSERT INTO users(name, email, password)
         VALUES (?, ?, ?)
         """,
-        (name, email, password)
+        (name, email, hashed_password)
     )
 
     connection.commit()
