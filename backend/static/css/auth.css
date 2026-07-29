@@ -1,0 +1,79 @@
+/* Login Container */
+
+.login-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Card */
+
+.login-card {
+    background: var(--card-color);
+    width: 420px;
+    padding: 40px;
+    border-radius: 18px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+}
+
+/* Title */
+
+.login-card h1 {
+    text-align: center;
+    color: var(--primary);
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+/* Tagline */
+
+.tagline {
+    text-align: center;
+    color: #64748B;
+    margin-bottom: 35px;
+}
+
+/* Labels */
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    margin-top: 18px;
+    color: var(--text-color);
+    font-weight: bold;
+}
+
+/* Inputs */
+
+input,
+select{
+    width:100%;
+    padding:14px;
+    border-radius:12px;
+    border:1px solid var(--border-color);
+    background:var(--card-color);
+    color:var(--text-color);
+    transition:var(--transition);
+}
+
+input:focus,
+select:focus{
+    outline:none;
+    border-color:var(--primary);
+}
+
+/* Register Text */
+
+.register-text {
+    text-align: center;
+    margin-top: 25px;
+    color: #64748B;
+}
+
+.register-text a {
+    color: #2563EB;
+    text-decoration: none;
+    font-weight: bold;
+}

@@ -1,0 +1,21 @@
+.analytics-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(380px,1fr));
+    gap:25px;
+}
+
+.chart-card{
+    background:var(--card-color);
+    padding:25px;
+    border-radius:22px;
+    box-shadow:var(--shadow);
+}
+
+.chart-card h3{
+    margin-bottom:20px;
+}
+
+.chart-card canvas{
+    width:100% !important;
+    height:350px !important;
+}

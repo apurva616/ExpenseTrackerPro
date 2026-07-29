@@ -1,0 +1,51 @@
+/* ==========================
+   LIGHT THEME (Default)
+========================== */
+
+:root{
+    --bg-color:#F8FAFC;
+    --card-color:#FFFFFF;
+    --sidebar-color:#F1F5F9;
+    --text-color:#1E293B;
+    --text-secondary:#64748B;
+    --border-color:#E2E8F0;
+    --shadow:0 10px 30px rgba(0,0,0,.08);
+
+    --primary:#7C8CF8;
+    --primary-hover:#6574F5;
+
+    --success:#34D399;
+    --warning:#FBBF24;
+    --danger:#F87171;
+    --info:#7DD3FC;
+
+    --expense-card:#E0F2FE;
+    --month-card:#DCFCE7;
+    --category-card:#FEF3C7;
+
+    --radius:18px;
+    --transition:.3s ease;
+}
+
+/* ==========================
+   DARK THEME
+========================== */
+
+body.dark{
+    --bg-color:#0F172A;
+    --card-color:#1E293B;
+    --sidebar-color:#172554;
+    --text-color:#F8FAFC;
+    --text-secondary:#CBD5E1;
+    --border-color:#334155;
+    --shadow:0 12px 30px rgba(0,0,0,.35);
+    --primary:#60A5FA;
+    --primary-hover:#3B82F6;
+    --success:#22C55E;
+    --warning:#FBBF24;
+    --danger:#EF4444;
+    --info:#38BDF8;
+    --expense-card:#1E3A5F;
+    --month-card:#1F4D3A;
+    --category-card:#5B4A1D;
+}

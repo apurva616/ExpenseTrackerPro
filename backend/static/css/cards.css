@@ -1,0 +1,61 @@
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+    margin-bottom:35px;
+}
+
+.card{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:28px;
+    border-radius:22px;
+    box-shadow:var(--shadow);
+    transition:transform .3s ease, box-shadow .3s ease;
+    cursor:default;
+}
+
+.card:hover{
+    transform:translateY(-8px);
+}
+
+.card-icon{
+    width:70px;
+    height:70px;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:32px;
+}
+
+.total-card{
+    background:var(--expense-card);
+}
+
+.month-card{
+    background:var(--month-card);
+}
+
+.category-card{
+    background:var(--category-card);
+}
+
+.card h3{
+    margin:0;
+    font-size:15px;
+    color:var(--text-secondary);
+}
+
+.card h2{
+    margin:8px 0;
+    font-size:32px;
+    font-weight:700;
+}
+
+.card p{
+    margin:0;
+    color:var(--text-secondary);
+    font-size:14px;
+}

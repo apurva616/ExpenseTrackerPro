@@ -1,0 +1,199 @@
+const expenseList = document.getElementById("expenseList");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
+const sortFilter = document.getElementById("sortFilter");
+
+async function loadExpenses() {
+
+    try {
+
+        const response = await fetch("/expenses");
+        const expenses = await response.json();
+
+        expenseList.innerHTML = "";
+
+        if (expenses.length === 0) {
+
+            expenseList.innerHTML = `
+                <div class="empty-card">
+                    <h3>No expenses yet</h3>
+                    <p>Click "+ Add Expense" to create your first expense.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        const searchText = searchInput.value.toLowerCase();
+        const selectedCategory = categoryFilter.value;
+
+        const filteredExpenses = expenses.filter(expense => {
+
+            const matchesSearch =
+                expense.title.toLowerCase().includes(searchText);
+
+            const matchesCategory =
+                selectedCategory === "" ||
+                expense.category === selectedCategory;
+
+            return matchesSearch && matchesCategory;
+
+        });
+
+        // ==========================
+        // SORTING
+        // ==========================
+
+        const sortValue = sortFilter.value;
+
+        filteredExpenses.sort((a, b) => {
+
+            switch (sortValue) {
+
+                case "oldest":
+                    return new Date(a.expense_date) - new Date(b.expense_date);
+
+                case "highest":
+                    return Number(b.amount) - Number(a.amount);
+
+                case "lowest":
+                    return Number(a.amount) - Number(b.amount);
+
+                default:
+                    return new Date(b.expense_date) - new Date(a.expense_date);
+
+            }
+
+        });
+
+        filteredExpenses.forEach(expense => {
+
+            expenseList.innerHTML += `
+
+            <div class="expense-card">
+
+                <div class="expense-left">
+
+                    <h3>${expense.title}</h3>
+
+                    <p>
+                        <span class="category-badge ${expense.category.toLowerCase()}">
+                            ${expense.category}
+                        </span>
+                    </p>
+
+                </div>
+
+                <div class="expense-right">
+
+                    <h2>₹${Number(expense.amount).toFixed(2)}</h2>
+
+                    <p>
+                        📅 ${new Date(expense.expense_date).toLocaleDateString(
+                            "en-GB",
+                            {
+                                day: "2-digit",
+                                month: "short",
+                                year: "numeric"
+                            }
+                        )}
+                    </p>
+
+                    <div class="expense-actions">
+
+                        <button onclick="editExpense(${expense.id})">
+                            ✏️ Edit
+                        </button>
+
+                        <button
+                            class="delete-btn"
+                            onclick="deleteExpense(${expense.id})">
+                            🗑 Delete
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            `;
+
+        });
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Failed to load expenses.");
+
+    }
+
+}
+
+loadExpenses();
+
+async function deleteExpense(id) {
+
+    const confirmDelete = confirm(
+        "Are you sure you want to delete this expense?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+
+        const response = await fetch(`/delete-expense/${id}`, {
+            method: "DELETE"
+        });
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        loadExpenses();
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Failed to delete expense.");
+
+    }
+
+}
+
+function editExpense(id) {
+
+    window.location.href = `/edit-expense/${id}`;
+
+}
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", async () => {
+
+    const confirmLogout = confirm("Are you sure you want to logout?");
+
+    if (!confirmLogout) return;
+
+    try {
+
+        const response = await fetch("/logout", {method: "POST"});
+
+        const data = await response.json();
+
+        alert(data.message);
+
+        window.location.href = "/";
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Logout failed.");
+
+    }
+
+});
+
+searchInput.addEventListener("input", loadExpenses);
+categoryFilter.addEventListener("change", loadExpenses);
+sortFilter.addEventListener("change", loadExpenses);

@@ -33,9 +33,19 @@ registerForm.addEventListener("submit", async function (event) {
 
         const data = await response.json();
 
-        alert(data.message);
+        if (data.success) {
 
-        registerForm.reset();
+            alert(data.message);
+
+            registerForm.reset();
+
+            window.location.href = "/";
+
+        } else {
+
+            alert(data.message);
+
+        }
 
     } catch (error) {
 

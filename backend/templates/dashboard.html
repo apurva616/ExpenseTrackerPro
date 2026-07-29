@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard | ExpenseTracker Pro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>💰 ExpenseTracker Pro</h2>
+
+            <p>Personal Finance</p>
+
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard" class="active">
+                📊 Dashboard
+            </a>
+
+            <a href="/expenses-page">
+                💳 Expenses
+            </a>
+
+            <a href="/analytics">
+                📈 Analytics
+            </a>
+
+            <a href="#">
+                🎯 Budgets
+            </a>
+
+            <a href="#">
+                ⚙️ Settings
+            </a>
+
+            <a href="#" id="logoutBtn">
+                🚪 Logout
+            </a>
+
+        </nav>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main-content">
+
+        <header class="topbar">
+
+            <div>
+
+                <h1>Welcome Back 👋</h1>
+
+                <p class="welcome-text">
+                    Track your spending and stay on budget.
+                </p>
+
+            </div>
+
+            <div class="topbar-right">
+
+                <button id="themeToggle" title="Toggle Theme">
+                    🌙
+                </button>
+
+                <div class="user">
+
+                    👤 {{ user_name }}
+
+                </div>
+
+            </div>
+
+        </header>
+
+        <!-- Summary Cards -->
+
+        <section class="cards">
+
+            <div class="card total-card">
+
+                <div class="card-icon">💰</div>
+
+                <div>
+
+                    <h3>Total Expenses</h3>
+
+                    <h2 id="totalExpense">₹0.00</h2>
+
+                </div>
+
+            </div>
+
+            <div class="card month-card">
+
+                <div class="card-icon">📅</div>
+
+                <div>
+
+                    <h3>This Month</h3>
+
+                    <h2 id="monthlyExpense">₹0.00</h2>
+
+                </div>
+
+            </div>
+
+            <div class="card category-card">
+
+                <div class="card-icon">📂</div>
+
+                <div>
+
+                    <h3>Categories</h3>
+
+                    <h2 id="categoryCount">0</h2>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Recent Expenses -->
+
+        <section class="recent-expenses">
+
+            <div class="section-header">
+
+                <h2>Recent Expenses</h2>
+
+                <button id="addExpenseBtn">
+                    + Add Expense
+                </button>
+
+            </div>
+
+            <div id="expenseList" class="expense-list">
+
+                <div class="empty-card">
+
+                    <h3>Loading...</h3>
+
+                    <p>Please wait while we fetch your expenses.</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+</body>
+
+</html>

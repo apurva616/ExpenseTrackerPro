@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Expense | ExpenseTracker Pro</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <h1>✏️ Edit Expense</h1>
+
+        <form id="editExpenseForm">
+
+            <input
+                type="hidden"
+                id="expenseId"
+                value="{{ expense.id }}"
+            >
+
+            <label for="title">Expense Title</label>
+
+            <input
+                type="text"
+                id="title"
+                value="{{ expense.title }}"
+                required
+            >
+
+            <label for="amount">Amount (₹)</label>
+
+            <input
+                type="number"
+                id="amount"
+                value="{{ expense.amount }}"
+                step="0.01"
+                min="0.01"
+                required
+            >
+
+            <label for="category">Category</label>
+
+            <select id="category" required>
+
+                <option {% if expense.category=="Food" %}selected{% endif %}>Food</option>
+                <option {% if expense.category=="Transport" %}selected{% endif %}>Transport</option>
+                <option {% if expense.category=="Shopping" %}selected{% endif %}>Shopping</option>
+                <option {% if expense.category=="Bills" %}selected{% endif %}>Bills</option>
+                <option {% if expense.category=="Entertainment" %}selected{% endif %}>Entertainment</option>
+                <option {% if expense.category=="Health" %}selected{% endif %}>Health</option>
+                <option {% if expense.category=="Education" %}selected{% endif %}>Education</option>
+                <option {% if expense.category=="Other" %}selected{% endif %}>Other</option>
+
+            </select>
+
+            <label for="expense_date">Date</label>
+
+            <input
+                type="date"
+                id="expense_date"
+                value="{{ expense.expense_date }}"
+                required
+            >
+
+            <button type="submit">
+                Update Expense
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/dashboard">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='js/edit_expense.js') }}"></script>
+
+</body>
+
+</html>

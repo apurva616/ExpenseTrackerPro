@@ -1,0 +1,17 @@
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+
+body{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:var(--bg-color);
+    color:var(--text-color);
+    transition:var(--transition);
+}

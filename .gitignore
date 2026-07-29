@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
+.env
+
+# VS Code
+.vscode/
+
+# Python cache
+.pytest_cache/
+
+# Operating System
+.DS_Store
+Thumbs.db
+
+# Database
+backend/expense_tracker.db
+
+# Screenshots 
+screenshots/
+
+# Logs
+*.log

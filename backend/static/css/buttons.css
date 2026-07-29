@@ -1,0 +1,40 @@
+button{
+    background:var(--primary);
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:14px 22px;
+    cursor:pointer;
+    transition:var(--transition);
+    font-weight:600;
+}
+
+button:hover{
+    background:var(--primary-hover);
+    transform:translateY(-2px);
+}
+
+.delete-btn{
+    background:var(--danger);
+}
+
+.delete-btn:hover{
+    filter: brightness(0.9);
+}
+
+#themeToggle{
+    width:48px;
+    height:48px;
+    border-radius:50%;
+    font-size:20px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:0;
+}
+
+button:disabled{
+    opacity:0.6;
+    cursor:not-allowed;
+    transform:none;
+}

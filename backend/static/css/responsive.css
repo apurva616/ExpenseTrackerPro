@@ -1,0 +1,98 @@
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width:768px){
+
+    .app-layout{
+        flex-direction:column;
+    }
+
+    .sidebar{
+        width:100%;
+        position:relative;
+    }
+
+    .sidebar-menu{
+        flex-direction:column;
+    }
+
+    .sidebar-menu a{
+        width:100%;
+        justify-content:flex-start;
+    }
+
+    .main-content{
+        padding:20px;
+    }
+
+    .topbar{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .topbar-right{
+        width:100%;
+        justify-content:space-between;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .filters{
+        flex-direction:column;
+    }
+
+    .filters input,
+    .filters select{
+        width:100%;
+    }
+
+    .expense-card{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:20px;
+    }
+
+    .expense-right{
+        width:100%;
+        text-align:left;
+    }
+
+    .expense-actions{
+        justify-content:flex-start;
+    }
+
+    table{
+        display:block;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
+
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width:500px){
+
+    .logo h2{
+        font-size:22px;
+    }
+
+    .topbar h1{
+        font-size:28px;
+    }
+
+    .card h2{
+        font-size:28px;
+    }
+
+    .expense-right h2{
+        font-size:26px;
+    }
+
+}
