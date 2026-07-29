@@ -9,9 +9,14 @@ registerForm.addEventListener("submit", async function (event) {
     const password = document.getElementById("password").value.trim();
 
     if (!name || !email || !password) {
-        alert("Please fill in all fields.");
+        showToast("Please fill in all fields.", "warning");
         return;
     }
+
+    const submitButton = registerForm.querySelector("button");
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Creating Account...";
 
     try {
 
@@ -35,23 +40,27 @@ registerForm.addEventListener("submit", async function (event) {
 
         if (data.success) {
 
-            alert(data.message);
+            showToast(data.message, "success");
 
-            registerForm.reset();
-
-            window.location.href = "/";
+            // Wait a moment so the user can see the toast
+            setTimeout(() => {
+                window.location.href = "/";
+            }, 1200);
 
         } else {
 
-            alert(data.message);
+            submitButton.disabled = false;
+            submitButton.textContent = "Create Account";
+            showToast(data.message, "error");
 
         }
 
     } catch (error) {
 
         console.error(error);
-
-        alert("Something went wrong.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Create Account";
+        showToast("Something went wrong.", "error");
 
     }
 

@@ -39,5 +39,21 @@ def create_tables():
         )
     """)
 
+    # NEW TABLE
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS budgets (
+
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+
+            user_id INTEGER UNIQUE,
+
+            monthly_budget REAL NOT NULL,
+
+            FOREIGN KEY(user_id)
+                REFERENCES users(id)
+
+        )
+    """)
+
     connection.commit()
     connection.close()

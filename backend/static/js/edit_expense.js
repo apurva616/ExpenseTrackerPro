@@ -1,6 +1,6 @@
 const form = document.getElementById("editExpenseForm");
 
-form.addEventListener("submit", async function(event){
+form.addEventListener("submit", async function (event) {
 
     event.preventDefault();
 
@@ -15,7 +15,7 @@ form.addEventListener("submit", async function(event){
     const expense_date = document.getElementById("expense_date").value;
 
     if (!title || !amount || !category || !expense_date) {
-        alert("Please fill all fields.");
+        showToast("Please fill all fields.", "warning");
         return;
     }
 
@@ -42,13 +42,15 @@ form.addEventListener("submit", async function(event){
 
         if (data.success) {
 
-            alert(data.message);
+            showToast(data.message, "success");
 
-            window.location.href = "/dashboard";
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1500);
 
         } else {
 
-            alert(data.message);
+            showToast(data.message, "error");
 
         }
 
@@ -56,7 +58,7 @@ form.addEventListener("submit", async function(event){
 
         console.error(error);
 
-        alert("Something went wrong while updating the expense.");
+        showToast("Something went wrong while updating the expense.", "error");
 
     }
 

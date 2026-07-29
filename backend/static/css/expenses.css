@@ -175,3 +175,8 @@
     outline:none;
     border-color:var(--primary);
 }
+
+.topbar-actions{
+    display:flex;
+    gap:12px;
+}

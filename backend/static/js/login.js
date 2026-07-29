@@ -8,10 +8,15 @@ loginForm.addEventListener("submit", async function (event) {
     const password = document.getElementById("password").value.trim();
 
     if (!email || !password) {
-        alert("Please enter your email and password.");
+        showToast("Please enter your email and password.", "warning");
         return;
     }
 
+    const submitButton = loginForm.querySelector("button");
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Logging in...";
+        
     try {
 
         const response = await fetch("/login", {
@@ -37,18 +42,21 @@ loginForm.addEventListener("submit", async function (event) {
 
         } else {
 
-            alert(data.message);
-
-            loginForm.reset();
-            document.getElementById("email").focus();
+            submitButton.disabled = false;
+            submitButton.textContent = "Login";
+            showToast(data.message, "error");
 
         }
+
+        loginForm.reset();
+        document.getElementById("email").focus();
 
     } catch (error) {
 
         console.error(error);
-
-        alert("Login failed. Please try again.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Login";
+        showToast("Login failed.", "error");
 
     }
 

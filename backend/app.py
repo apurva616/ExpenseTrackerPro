@@ -8,6 +8,12 @@ from flask import (
     url_for
 )
 
+import csv
+from io import StringIO
+from flask import make_response
+
+from datetime import datetime
+
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -16,7 +22,7 @@ from models import create_tables
 
 app = Flask(__name__)
 app.secret_key = os.getenv(
-    "SECRET_KEY",
+    "SECRET_KEY",   
     "expense_tracker_secret_key"
 )
 
@@ -382,6 +388,17 @@ def expenses_page():
         user_name=session["user_name"]
     )
 
+@app.route("/budgets")
+def budgets():
+
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+
+    return render_template(
+        "budgets.html",
+        user_name=session["user_name"]
+    )
+
 
 # ---------------- LOGOUT ---------------- #
 
@@ -412,6 +429,334 @@ def users():
 
     return jsonify([dict(user) for user in users])
 
+@app.errorhandler(404)
+def page_not_found(error):
+
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+
+    return render_template("500.html"), 500
+
+@app.route("/save-budget", methods=["POST"])
+def save_budget():
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please login first."
+        }), 401
+
+    data = request.get_json()
+
+    budget = data["budget"]
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT id
+        FROM budgets
+        WHERE user_id=?
+        """,
+        (session["user_id"],)
+    )
+
+    existing = cursor.fetchone()
+
+    if existing:
+
+        cursor.execute(
+            """
+            UPDATE budgets
+            SET monthly_budget=?
+            WHERE user_id=?
+            """,
+            (
+                budget,
+                session["user_id"]
+            )
+        )
+
+    else:
+
+        cursor.execute(
+            """
+            INSERT INTO budgets(user_id, monthly_budget)
+            VALUES(?, ?)
+            """,
+            (
+                session["user_id"],
+                budget
+            )
+        )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Budget saved successfully!"
+    })
+
+@app.route("/budget")
+def get_budget():
+
+    if "user_id" not in session:
+        return jsonify({
+            "budget": 0,
+            "spent": 0
+        })
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT monthly_budget
+        FROM budgets
+        WHERE user_id=?
+        """,
+        (session["user_id"],)
+    )
+
+    budget = cursor.fetchone()
+
+    cursor.execute(
+        """
+        SELECT IFNULL(SUM(amount), 0) AS total
+        FROM expenses
+        WHERE user_id=?
+        AND strftime('%m', expense_date)=strftime('%m','now')
+        AND strftime('%Y', expense_date)=strftime('%Y','now')
+        """,
+        (session["user_id"],)
+    )
+
+    spent = cursor.fetchone()["total"]
+
+    connection.close()
+
+    return jsonify({
+        "budget": budget["monthly_budget"] if budget else 0,
+        "spent": spent
+    })
+
+@app.route("/export-expenses")
+def export_expenses():
+
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            title,
+            amount,
+            category,
+            expense_date
+        FROM expenses
+        WHERE user_id=?
+        ORDER BY expense_date DESC
+    """, (session["user_id"],))
+
+    expenses = cursor.fetchall()
+
+    connection.close()
+
+    output = StringIO()
+
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "Title",
+        "Amount",
+        "Category",
+        "Date"
+    ])
+
+    for expense in expenses:
+
+        writer.writerow([
+            expense["title"],
+            expense["amount"],
+            expense["category"],
+            expense["expense_date"]
+        ])
+
+    response = make_response(output.getvalue())
+
+    filename = f"ExpenseTracker_{datetime.now().strftime('%Y-%m-%d')}.csv"
+    response.headers["Content-Disposition"] = \
+        f"attachment; filename={filename}"
+
+    response.headers["Content-Type"] = "text/csv"
+
+    return response
+
+@app.route("/settings")
+def settings():
+
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT
+            name,
+            email
+        FROM users
+        WHERE id=?
+        """,
+        (session["user_id"],)
+    )
+
+    user = cursor.fetchone()
+
+    connection.close()
+
+    return render_template(
+        "settings.html",
+        user_name=user["name"],
+        user_email=user["email"]
+    )
+
+@app.route("/update-profile", methods=["PUT"])
+def update_profile():
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please login first."
+        }), 401
+
+    data = request.get_json()
+
+    name = data["name"]
+    email = data["email"]
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Check if another user already uses this email
+    cursor.execute(
+        """
+        SELECT id
+        FROM users
+        WHERE email=?
+        AND id!=?
+        """,
+        (
+            email,
+            session["user_id"]
+        )
+    )
+
+    existing = cursor.fetchone()
+
+    if existing:
+
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Email already in use."
+        })
+
+    cursor.execute(
+        """
+        UPDATE users
+        SET
+            name=?,
+            email=?
+        WHERE id=?
+        """,
+        (
+            name,
+            email,
+            session["user_id"]
+        )
+    )
+
+    connection.commit()
+
+    connection.close()
+
+    session["user_name"] = name
+
+    return jsonify({
+        "success": True,
+        "message": "Profile updated successfully!"
+    })
+
+@app.route("/change-password", methods=["PUT"])
+def change_password():
+
+    if "user_id" not in session:
+        return jsonify({
+            "success": False,
+            "message": "Please login first."
+        }), 401
+
+    data = request.get_json()
+
+    current_password = data["currentPassword"]
+    new_password = data["newPassword"]
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute(
+        """
+        SELECT password
+        FROM users
+        WHERE id=?
+        """,
+        (session["user_id"],)
+    )
+
+    user = cursor.fetchone()
+
+    if not check_password_hash(
+        user["password"],
+        current_password
+    ):
+
+        connection.close()
+
+        return jsonify({
+            "success": False,
+            "message": "Current password is incorrect."
+        })
+
+    hashed_password = generate_password_hash(new_password)
+
+    cursor.execute(
+        """
+        UPDATE users
+        SET password=?
+        WHERE id=?
+        """,
+        (
+            hashed_password,
+            session["user_id"]
+        )
+    )
+
+    connection.commit()
+    connection.close()
+
+    return jsonify({
+        "success": True,
+        "message": "Password updated successfully!"
+    })
 
 if __name__ == "__main__":
     app.run(debug=True) 

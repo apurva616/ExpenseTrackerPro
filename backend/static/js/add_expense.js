@@ -10,9 +10,14 @@ expenseForm.addEventListener("submit", async function(event){
     const expense_date = document.getElementById("expense_date").value;
 
     if (!title || !amount || !category || !expense_date) {
-        alert("Please fill all fields.");
+        showToast("Please fill all fields.", "warning");
         return;
     }
+
+    const submitButton = expenseForm.querySelector("button");
+
+    submitButton.disabled = true;
+    submitButton.textContent = "Saving...";
 
     try{
 
@@ -36,17 +41,24 @@ expenseForm.addEventListener("submit", async function(event){
         const data = await response.json();
 
         if (data.success) {
-            alert(data.message);
-            window.location.href = "/dashboard";
+            showToast(data.message, "success");
+
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 1200);
+
         } else {
-            alert(data.message);
+            submitButton.disabled = false;
+            submitButton.textContent = "Add Expense";
+            showToast(data.message, "error");
         }
 
     }catch(error){
 
         console.error(error);
-
-        alert("Something went wrong.");
+        submitButton.disabled = false;
+        submitButton.textContent = "Add Expense";
+        showToast("Something went wrong.", "error");
 
     }
 

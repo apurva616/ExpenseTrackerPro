@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Budgets | ExpenseTracker Pro</title>
+
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="app-layout">
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <h2>💰 ExpenseTracker Pro</h2>
+
+            <p>Personal Finance</p>
+
+        </div>
+
+        <nav class="sidebar-menu">
+
+            <a href="/dashboard">📊 Dashboard</a>
+
+            <a href="/expenses-page">💳 Expenses</a>
+
+            <a href="/analytics">📈 Analytics</a>
+
+            <a class="active" href="/budgets">🎯 Budgets</a>
+
+            <a href="/settings">⚙️ Settings</a>
+
+            <a href="#" id="logoutBtn">🚪 Logout</a>
+
+        </nav>
+
+    </aside>
+
+    <main class="main-content">
+
+        <div class="topbar">
+
+            <div>
+
+                <h1>Monthly Budget</h1>
+
+                <p class="welcome-text">
+
+                    Manage your monthly spending goal.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="login-card">
+
+            <label for="budget">
+
+                Monthly Budget (₹)
+
+            </label>
+
+            <input
+                type="number"
+                id="budget"
+                min="1"
+                step="0.01"
+                placeholder="Enter monthly budget">
+
+            <br><br>
+
+            <button id="saveBudgetBtn">
+
+                Save Budget
+
+            </button>
+
+        </div>
+
+        <br>
+
+        <div class="cards">
+
+            <div class="card">
+
+                <h3>Budget</h3>
+
+                <h2 id="budgetAmount">
+
+                    ₹0.00
+
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Spent</h3>
+
+                <h2 id="spentAmount">
+
+                    ₹0.00
+
+                </h2>
+
+            </div>
+
+            <div class="card">
+
+                <h3>Remaining</h3>
+
+                <h2 id="remainingAmount">
+
+                    ₹0.00
+
+                </h2>
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="progress-container">
+
+        <div
+            id="budgetProgress"
+            class="progress-bar">
+
+        </div>
+
+        </div>
+
+        <p
+            id="progressText"
+            style="margin-top:10px;font-weight:600;">
+
+        </p>
+        <p id="budgetWarning"></p>
+
+    </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+<script src="{{ url_for('static', filename='js/budgets.js') }}"></script>
+
+</body>
+
+</html>

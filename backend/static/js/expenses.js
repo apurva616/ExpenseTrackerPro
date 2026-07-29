@@ -15,10 +15,24 @@ async function loadExpenses() {
         if (expenses.length === 0) {
 
             expenseList.innerHTML = `
-                <div class="empty-card">
-                    <h3>No expenses yet</h3>
-                    <p>Click "+ Add Expense" to create your first expense.</p>
-                </div>
+            <div class="empty-state">
+
+                <div class="empty-icon">💸</div>
+
+                <h2>No Expenses Yet</h2>
+
+                <p>
+                    Start tracking your spending by adding your first expense.
+                </p>
+
+                <button
+                    onclick="window.location.href='/add-expense'">
+
+                    + Add Expense
+
+                </button>
+
+            </div>
             `;
 
             return;
@@ -134,11 +148,19 @@ loadExpenses();
 
 async function deleteExpense(id) {
 
-    const confirmDelete = confirm(
-        "Are you sure you want to delete this expense?"
-    );
+    const result = await Swal.fire({
+        title: "Delete Expense?",
+        text: "This expense will be permanently deleted.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#EF4444",
+        cancelButtonColor: "#64748B",
+        confirmButtonText: "Yes, delete it!"
+    });
 
-    if (!confirmDelete) return;
+    if (!result.isConfirmed) {
+        return;
+    }
 
     try {
 
@@ -171,9 +193,19 @@ const logoutBtn = document.getElementById("logoutBtn");
 
 logoutBtn.addEventListener("click", async () => {
 
-    const confirmLogout = confirm("Are you sure you want to logout?");
+    const result = await Swal.fire({
+        title: "Logout?",
+        text: "You will need to login again.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#7C8CF8",
+        cancelButtonColor: "#64748B",
+        confirmButtonText: "Logout"
+    });
 
-    if (!confirmLogout) return;
+    if (!result.isConfirmed) {
+        return;
+    }
 
     try {
 
