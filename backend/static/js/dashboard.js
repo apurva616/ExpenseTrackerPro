@@ -9,7 +9,12 @@ async function loadExpenses() {
     try {
 
         const response = await fetch("/expenses");
+
+        console.log("Status:", response.status);
+
         const expenses = await response.json();
+
+        console.log(expenses);
 
         const expenseList = document.getElementById("expenseList");
 
@@ -27,7 +32,7 @@ async function loadExpenses() {
 
         if (expenses.length === 0) {
 
-            dashboardContent.innerHTML = `
+            expenseList.innerHTML = `
             <div class="empty-state">
 
                 <div class="empty-icon">👋</div>
