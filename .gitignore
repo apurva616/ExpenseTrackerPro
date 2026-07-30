@@ -20,8 +20,5 @@ Thumbs.db
 # Database
 backend/expense_tracker.db
 
-# Screenshots 
-screenshots/
-
 # Logs
 *.log
