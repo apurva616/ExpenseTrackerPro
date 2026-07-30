@@ -7,11 +7,11 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
 
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
 
-            name TEXT NOT NULL,
+            name VARCHAR(255) NOT NULL,
 
-            email TEXT UNIQUE NOT NULL,
+            email VARCHAR(255) UNIQUE NOT NULL,
 
             password TEXT NOT NULL
 
@@ -21,36 +21,29 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS expenses (
 
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
 
-            user_id INTEGER,
+            user_id INTEGER REFERENCES users(id),
 
-            title TEXT NOT NULL,
+            title VARCHAR(255) NOT NULL,
 
-            amount REAL NOT NULL,
+            amount DECIMAL(10,2) NOT NULL,
 
-            category TEXT NOT NULL,
+            category VARCHAR(100) NOT NULL,
 
-            expense_date TEXT NOT NULL,
-
-            FOREIGN KEY(user_id)
-                REFERENCES users(id)
+            expense_date DATE NOT NULL
 
         )
     """)
 
-    # NEW TABLE
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS budgets (
 
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
 
-            user_id INTEGER UNIQUE,
+            user_id INTEGER UNIQUE REFERENCES users(id),
 
-            monthly_budget REAL NOT NULL,
-
-            FOREIGN KEY(user_id)
-                REFERENCES users(id)
+            monthly_budget DECIMAL(10,2) NOT NULL
 
         )
     """)

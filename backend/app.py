@@ -62,7 +62,7 @@ def register():
     cursor = connection.cursor()
 
     cursor.execute(
-        "SELECT id FROM users WHERE email=?",
+        "SELECT id FROM users WHERE email=%s",
         (email,)
     )
 
@@ -81,7 +81,7 @@ def register():
     cursor.execute(
         """
         INSERT INTO users(name,email,password)
-        VALUES(?,?,?)
+        VALUES(%s,%s,%s)
         """,
         (name, email, hashed_password)
     )
@@ -115,7 +115,7 @@ def login():
     cursor = connection.cursor()
 
     cursor.execute(
-        "SELECT * FROM users WHERE email=?",
+        "SELECT * FROM users WHERE email=%s",
         (email,)
     )
 
@@ -187,7 +187,7 @@ def add_expense():
         """
         INSERT INTO expenses
         (user_id,title,amount,category,expense_date)
-        VALUES(?,?,?,?,?)
+        VALUES(%s,%s,%s,%s,%s)
         """,
         (
             session["user_id"],
@@ -230,7 +230,7 @@ def get_expenses():
             category,
             expense_date
         FROM expenses
-        WHERE user_id=?
+        WHERE user_id=%s
         ORDER BY expense_date DESC
         """,
         (session["user_id"],)
@@ -260,8 +260,8 @@ def delete_expense(expense_id):
     cursor.execute(
         """
         DELETE FROM expenses
-        WHERE id=?
-        AND user_id=?
+        WHERE id=%s
+        AND user_id=%s
         """,
         (
             expense_id,
@@ -293,8 +293,8 @@ def edit_expense_page(expense_id):
         """
         SELECT *
         FROM expenses
-        WHERE id=?
-        AND user_id=?
+        WHERE id=%s
+        AND user_id=%s
         """,
         (
             expense_id,
@@ -333,14 +333,14 @@ def update_expense(expense_id):
         """
         UPDATE expenses
         SET
-            title=?,
-            amount=?,
-            category=?,
-            expense_date=?
+            title=%s,
+            amount=%s,
+            category=%s,
+            expense_date=%s
         WHERE
-            id=?
+            id=%s
         AND
-            user_id=?
+            user_id=%s
         """,
         (
             data["title"],
@@ -459,7 +459,7 @@ def save_budget():
         """
         SELECT id
         FROM budgets
-        WHERE user_id=?
+        WHERE user_id=%s
         """,
         (session["user_id"],)
     )
@@ -471,8 +471,8 @@ def save_budget():
         cursor.execute(
             """
             UPDATE budgets
-            SET monthly_budget=?
-            WHERE user_id=?
+            SET monthly_budget=%s
+            WHERE user_id=%s
             """,
             (
                 budget,
@@ -485,7 +485,7 @@ def save_budget():
         cursor.execute(
             """
             INSERT INTO budgets(user_id, monthly_budget)
-            VALUES(?, ?)
+            VALUES(%s, %s)
             """,
             (
                 session["user_id"],
@@ -517,7 +517,7 @@ def get_budget():
         """
         SELECT monthly_budget
         FROM budgets
-        WHERE user_id=?
+        WHERE user_id=%s
         """,
         (session["user_id"],)
     )
@@ -526,11 +526,11 @@ def get_budget():
 
     cursor.execute(
         """
-        SELECT IFNULL(SUM(amount), 0) AS total
+        SELECT COALESCE(SUM(amount), 0) AS total
         FROM expenses
-        WHERE user_id=?
-        AND strftime('%m', expense_date)=strftime('%m','now')
-        AND strftime('%Y', expense_date)=strftime('%Y','now')
+        WHERE user_id=%s
+        AND EXTRACT(MONTH FROM expense_date) = EXTRACT(MONTH FROM CURRENT_DATE)
+        AND EXTRACT(YEAR FROM expense_date) = EXTRACT(YEAR FROM CURRENT_DATE)
         """,
         (session["user_id"],)
     )
@@ -541,7 +541,7 @@ def get_budget():
 
     return jsonify({
         "budget": budget["monthly_budget"] if budget else 0,
-        "spent": spent
+        "spent": float(spent)
     })
 
 @app.route("/export-expenses")
@@ -560,7 +560,7 @@ def export_expenses():
             category,
             expense_date
         FROM expenses
-        WHERE user_id=?
+        WHERE user_id=%s
         ORDER BY expense_date DESC
     """, (session["user_id"],))
 
@@ -613,7 +613,7 @@ def settings():
             name,
             email
         FROM users
-        WHERE id=?
+        WHERE id=%s
         """,
         (session["user_id"],)
     )
@@ -650,8 +650,8 @@ def update_profile():
         """
         SELECT id
         FROM users
-        WHERE email=?
-        AND id!=?
+        WHERE email=%s
+        AND id!=%s
         """,
         (
             email,
@@ -674,9 +674,9 @@ def update_profile():
         """
         UPDATE users
         SET
-            name=?,
-            email=?
-        WHERE id=?
+            name=%s,
+            email=%s
+        WHERE id=%s
         """,
         (
             name,
@@ -717,7 +717,7 @@ def change_password():
         """
         SELECT password
         FROM users
-        WHERE id=?
+        WHERE id=%s
         """,
         (session["user_id"],)
     )
@@ -741,8 +741,8 @@ def change_password():
     cursor.execute(
         """
         UPDATE users
-        SET password=?
-        WHERE id=?
+        SET password=%s
+        WHERE id=%s
         """,
         (
             hashed_password,
