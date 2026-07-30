@@ -255,10 +255,11 @@ logoutBtn.addEventListener("click", async () => {
 
         const data = await response.json();
 
-        alert(data.message);
+        showToast(data.message, "success");
 
-        window.location.href = "/";
-
+        setTimeout(() => {
+            window.location.href = "/";
+        }, 1000);
     } catch (error) {
 
         console.error(error);
