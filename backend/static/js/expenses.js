@@ -9,6 +9,7 @@ async function loadExpenses() {
 
         const response = await fetch("/expenses");
         const expenses = await response.json();
+        console.log(expenses);
 
         expenseList.innerHTML = "";
 
@@ -59,13 +60,22 @@ async function loadExpenses() {
         // ==========================
 
         const sortValue = sortFilter.value;
+        console.log(filteredExpenses.map(e => ({
+            title: e.title,
+            date: e.expense_date
+        })));
 
         filteredExpenses.sort((a, b) => {
 
             switch (sortValue) {
 
-                case "oldest":
-                    return new Date(a.expense_date) - new Date(b.expense_date);
+                case "oldest": {
+                    const dateDiff =
+                        new Date(a.expense_date).getTime() -
+                        new Date(b.expense_date).getTime();
+
+                    return dateDiff !== 0 ? dateDiff : a.id - b.id;
+                } 
 
                 case "highest":
                     return Number(b.amount) - Number(a.amount);
@@ -73,8 +83,14 @@ async function loadExpenses() {
                 case "lowest":
                     return Number(a.amount) - Number(b.amount);
 
-                default:
-                    return new Date(b.expense_date) - new Date(a.expense_date);
+                case "newest":
+                default: {
+                    const dateDiff =
+                        new Date(b.expense_date).getTime() -
+                        new Date(a.expense_date).getTime();
+
+                    return dateDiff !== 0 ? dateDiff : b.id - a.id;
+                }                           
 
             }
 
@@ -138,7 +154,7 @@ async function loadExpenses() {
     } catch (error) {
 
         console.error(error);
-        alert("Failed to load expenses.");
+        showToast("Failed to load expenses.", "error");
 
     }
 
@@ -170,14 +186,14 @@ async function deleteExpense(id) {
 
         const data = await response.json();
 
-        alert(data.message);
+        showToast(data.message, "success");
 
         loadExpenses();
 
     } catch (error) {
 
         console.error(error);
-        alert("Failed to delete expense.");
+        showToast("Failed to load expenses.", "error");
 
     }
 
@@ -188,43 +204,6 @@ function editExpense(id) {
     window.location.href = `/edit-expense/${id}`;
 
 }
-
-const logoutBtn = document.getElementById("logoutBtn");
-
-logoutBtn.addEventListener("click", async () => {
-
-    const result = await Swal.fire({
-        title: "Logout?",
-        text: "You will need to login again.",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#7C8CF8",
-        cancelButtonColor: "#64748B",
-        confirmButtonText: "Logout"
-    });
-
-    if (!result.isConfirmed) {
-        return;
-    }
-
-    try {
-
-        const response = await fetch("/logout", {method: "POST"});
-
-        const data = await response.json();
-
-        alert(data.message);
-
-        window.location.href = "/";
-
-    } catch (error) {
-
-        console.error(error);
-        alert("Logout failed.");
-
-    }
-
-});
 
 searchInput.addEventListener("input", loadExpenses);
 categoryFilter.addEventListener("change", loadExpenses);

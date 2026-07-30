@@ -18,12 +18,16 @@ async function loadExpenses() {
 
         const expenseList = document.getElementById("expenseList");
 
+        console.log("expenseList element:", expenseList);
+
         expenseList.innerHTML = "";
+
 
         let total = 0;
         let monthly = 0;
 
         const categories = new Set();
+        const categoryTotals = {};
 
         const today = new Date();
 
@@ -33,32 +37,49 @@ async function loadExpenses() {
         if (expenses.length === 0) {
 
             expenseList.innerHTML = `
-            <div class="empty-state">
+                <div class="empty-state">
 
-                <div class="empty-icon">👋</div>
+                    <div class="empty-icon">📂</div>
 
-                <h2>Welcome to ExpenseTracker Pro</h2>
+                    <h2>No Expenses Yet</h2>
 
-                <p>
+                    <p>
+                        Add your first expense to start tracking your spending.
+                    </p>
 
-                    You haven't added any expenses yet.
+                    <button onclick="window.location.href='/add-expense'">
+                        + Add First Expense
+                    </button>
 
-                    Start by adding your first expense and begin tracking your spending.
-
-                </p>
-
-                <button onclick="window.location.href='/add-expense'">
-
-                    + Add First Expense
-
-                </button>
-
-            </div>
+                </div>
             `;
+
+            console.log("expenseList cleared");
 
             document.getElementById("totalExpense").textContent = "₹0.00";
             document.getElementById("monthlyExpense").textContent = "₹0.00";
             document.getElementById("categoryCount").textContent = "0";
+
+            const chartCanvas = document.getElementById("categoryChart");
+
+            chartCanvas.style.display = "none";
+
+            const oldMessage = document.getElementById("emptyChartMessage");
+
+            if (!oldMessage) {
+
+                chartCanvas.insertAdjacentHTML(
+                    "afterend",
+                    `
+                    <div id="emptyChartMessage" class="empty-chart">
+                        📊 <br>
+                        No expense data yet.<br>
+                        Add your first expense to see spending by category.
+                    </div>
+                    `
+                );
+
+            }
 
             return;
         }
@@ -68,6 +89,11 @@ async function loadExpenses() {
             total += Number(expense.amount);
 
             categories.add(expense.category);
+            if (!categoryTotals[expense.category]) {
+                categoryTotals[expense.category] = 0;
+            }
+
+            categoryTotals[expense.category] += Number(expense.amount);
 
             const expenseDate = new Date(expense.expense_date);
 
@@ -139,13 +165,44 @@ async function loadExpenses() {
         document.getElementById("categoryCount").textContent =
             categories.size;
 
+        const chartCanvas = document.getElementById("categoryChart");
+
+        chartCanvas.style.display = "block";
+
+        const oldMessage = document.getElementById("emptyChartMessage");
+
+        if (oldMessage) {
+            oldMessage.remove();
+        }
+
+        if (window.categoryChart instanceof Chart) {
+            window.categoryChart.destroy();
+        }
+
+        window.categoryChart = new Chart(chartCanvas, {
+            type: "pie",
+            data: {
+                labels: Object.keys(categoryTotals),
+                datasets: [{
+                    data: Object.values(categoryTotals)
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: "bottom"
+                    }
+                }
+            }
+        });
+
     } catch (error) {
 
-        console.error(error);
-        alert("Failed to load expenses.");
+            console.error(error);
+            alert(error.message);
 
-    }
-
+        }
 }
 
 loadExpenses();
@@ -174,14 +231,15 @@ async function deleteExpense(id) {
 
         const data = await response.json();
 
-        alert(data.message);
+        showToast(data.message, "success");
 
-        loadExpenses();
+        await loadExpenses();
 
     } catch (error) {
 
         console.error(error);
-        alert("Failed to delete expense.");
+
+        showToast("Failed to delete expense.", "error");
 
     }
 
@@ -227,44 +285,3 @@ themeToggle.addEventListener("click", () => {
 
 });
 
-// ==========================
-// LOGOUT
-// ==========================
-
-const logoutBtn = document.getElementById("logoutBtn");
-
-logoutBtn.addEventListener("click", async () => {
-
-    const result = await Swal.fire({
-        title: "Logout?",
-        text: "You will need to login again.",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#7C8CF8",
-        cancelButtonColor: "#64748B",
-        confirmButtonText: "Logout"
-    });
-
-    if (!result.isConfirmed) {
-        return;
-    }
-
-    try {
-
-        const response = await fetch("/logout", {method: "POST"});
-
-        const data = await response.json();
-
-        showToast(data.message, "success");
-
-        setTimeout(() => {
-            window.location.href = "/";
-        }, 1000);
-    } catch (error) {
-
-        console.error(error);
-        alert("Logout failed.");
-
-    }
-
-});

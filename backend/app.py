@@ -15,6 +15,10 @@ from flask import make_response
 from datetime import datetime
 
 import os
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from database import get_connection

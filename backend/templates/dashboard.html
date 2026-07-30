@@ -160,6 +160,14 @@
 
             </div>
 
+            <div class="chart-card">
+
+                <h2>Expense by Category</h2>
+
+                <canvas id="categoryChart"></canvas>
+
+            </div>
+
             <div id="expenseList" class="expense-list">
 
                 <div class="loading-card">
@@ -178,6 +186,8 @@
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/logout.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
 
 </body>

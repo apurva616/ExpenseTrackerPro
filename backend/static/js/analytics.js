@@ -1,23 +1,6 @@
-const logoutBtn = document.getElementById("logoutBtn");
-
-logoutBtn.addEventListener("click", async () => {
-
-    const confirmLogout = confirm("Are you sure you want to logout?");
-
-    if (!confirmLogout) return;
-
-    const response = await fetch("/logout", {
-        method: "POST"
-    });
-
-    const data = await response.json();
-
-    alert(data.message);
-
-    window.location.href = "/";
-});
-
 async function loadAnalytics() {
+
+    console.log("Analytics loaded");
 
     const response = await fetch("/expenses");
     const expenses = await response.json();
