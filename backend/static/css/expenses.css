@@ -1,6 +1,4 @@
-/* =========================================
-   EXPENSE LIST
-========================================= */
+/* EXPENSE LIST */
 
 .expense-list{
     display:flex;
@@ -8,9 +6,7 @@
     gap:18px;
 }
 
-/* =========================================
-   EXPENSE CARD
-========================================= */
+/* EXPENSE CARD */
 
 .expense-card{
     background:var(--card-color);
@@ -54,9 +50,7 @@
     color:var(--text-secondary);
 }
 
-/* =========================================
-   ACTION BUTTONS
-========================================= */
+/* ACTION BUTTONS */
 
 .expense-actions{
     display:flex;
@@ -70,9 +64,7 @@
     border-radius:12px;
 }
 
-/* =========================================
-   CATEGORY BADGES
-========================================= */
+/* CATEGORY BADGES */
 
 .category-badge{
     display:inline-block;
@@ -82,57 +74,55 @@
     font-weight:600;
 }
 
-/* Food */
+/* FOOD */
 
 .food{
     background:#DCFCE7;
     color:#166534;
 }
 
-/* Shopping */
+/* SHOPPING */
 
 .shopping{
     background:#F3E8FF;
     color:#7E22CE;
 }
 
-/* Transport */
+/* TRANSPORT */
 
 .transport{
     background:#DBEAFE;
     color:#1D4ED8;
 }
 
-/* Fuel */
+/* FUEL */
 
 .fuel{
     background:#FFEDD5;
     color:#C2410C;
 }
 
-/* Bills */
+/* BILLS */
 
 .bills{
     background:#FEE2E2;
     color:#B91C1C;
 }
 
-/* Entertainment */
+/* ENTERTAINMENT */
 
 .entertainment{
     background:#FEF3C7;
     color:#B45309;
 }
 
-/* Default */
+/* DEFAULT */
 .category-badge:not(.food):not(.shopping):not(.transport):not(.fuel):not(.bills):not(.entertainment){
     background:#E2E8F0;
     color:#334155;
 }
 
-/* =========================================
-   FILTERS
-========================================= */
+/* FILTERS */
 
 .filters{
     display:flex;

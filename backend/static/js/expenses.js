@@ -6,7 +6,6 @@ const sortFilter = document.getElementById("sortFilter");
 async function loadExpenses() {
 
     try {
-
         const response = await fetch("/expenses");
         const expenses = await response.json();
         console.log(expenses);
@@ -14,28 +13,19 @@ async function loadExpenses() {
         expenseList.innerHTML = "";
 
         if (expenses.length === 0) {
-
             expenseList.innerHTML = `
             <div class="empty-state">
-
                 <div class="empty-icon">💸</div>
-
                 <h2>No Expenses Yet</h2>
-
                 <p>
                     Start tracking your spending by adding your first expense.
                 </p>
-
                 <button
                     onclick="window.location.href='/add-expense'">
-
                     + Add Expense
-
                 </button>
-
             </div>
             `;
-
             return;
         }
 
@@ -43,7 +33,6 @@ async function loadExpenses() {
         const selectedCategory = categoryFilter.value;
 
         const filteredExpenses = expenses.filter(expense => {
-
             const matchesSearch =
                 expense.title.toLowerCase().includes(searchText);
 
@@ -52,12 +41,7 @@ async function loadExpenses() {
                 expense.category === selectedCategory;
 
             return matchesSearch && matchesCategory;
-
         });
-
-        // ==========================
-        // SORTING
-        // ==========================
 
         const sortValue = sortFilter.value;
         console.log(filteredExpenses.map(e => ({
@@ -73,7 +57,6 @@ async function loadExpenses() {
                     const dateDiff =
                         new Date(a.expense_date).getTime() -
                         new Date(b.expense_date).getTime();
-
                     return dateDiff !== 0 ? dateDiff : a.id - b.id;
                 } 
 
@@ -88,36 +71,24 @@ async function loadExpenses() {
                     const dateDiff =
                         new Date(b.expense_date).getTime() -
                         new Date(a.expense_date).getTime();
-
                     return dateDiff !== 0 ? dateDiff : b.id - a.id;
                 }                           
-
             }
-
         });
 
         filteredExpenses.forEach(expense => {
-
             expenseList.innerHTML += `
-
             <div class="expense-card">
-
                 <div class="expense-left">
-
                     <h3>${expense.title}</h3>
-
                     <p>
                         <span class="category-badge ${expense.category.toLowerCase()}">
                             ${expense.category}
                         </span>
                     </p>
-
                 </div>
-
                 <div class="expense-right">
-
                     <h2>₹${Number(expense.amount).toFixed(2)}</h2>
-
                     <p>
                         📅 ${new Date(expense.expense_date).toLocaleDateString(
                             "en-GB",
@@ -128,36 +99,25 @@ async function loadExpenses() {
                             }
                         )}
                     </p>
-
                     <div class="expense-actions">
-
                         <button onclick="editExpense(${expense.id})">
                             ✏️ Edit
                         </button>
-
                         <button
                             class="delete-btn"
                             onclick="deleteExpense(${expense.id})">
                             🗑 Delete
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
             `;
-
         });
 
     } catch (error) {
-
         console.error(error);
         showToast("Failed to load expenses.", "error");
-
     }
-
 }
 
 loadExpenses();
@@ -179,30 +139,22 @@ async function deleteExpense(id) {
     }
 
     try {
-
         const response = await fetch(`/delete-expense/${id}`, {
             method: "DELETE"
         });
 
         const data = await response.json();
-
         showToast(data.message, "success");
-
         loadExpenses();
 
     } catch (error) {
-
         console.error(error);
         showToast("Failed to load expenses.", "error");
-
     }
-
 }
 
 function editExpense(id) {
-
     window.location.href = `/edit-expense/${id}`;
-
 }
 
 searchInput.addEventListener("input", loadExpenses);

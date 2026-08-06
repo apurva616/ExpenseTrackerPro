@@ -60,7 +60,7 @@
     font-size:14px;
 }
 
-/* Budget Progress Bar */
+/* BUDGET PROGRESS BAR */
 
 .progress-container {
     width: 100%;
@@ -78,7 +78,7 @@
     transition: width 0.5s ease;
 }
 
-/* Empty State */
+/* EMPTY STATE */
 
 .empty-state{
     text-align:center;

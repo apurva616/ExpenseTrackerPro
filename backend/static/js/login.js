@@ -18,46 +18,34 @@ loginForm.addEventListener("submit", async function (event) {
     submitButton.textContent = "Logging in...";
         
     try {
-
         const response = await fetch("/login", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 email,
                 password
             })
-
         });
 
         const data = await response.json();
 
         if (data.success) {
-
             window.location.href = "/dashboard";
-
         } else {
-
             submitButton.disabled = false;
             submitButton.textContent = "Login";
             showToast(data.message, "error");
-
         }
 
         loginForm.reset();
         document.getElementById("email").focus();
 
     } catch (error) {
-
         console.error(error);
         submitButton.disabled = false;
         submitButton.textContent = "Login";
         showToast("Login failed.", "error");
-
     }
-
 });

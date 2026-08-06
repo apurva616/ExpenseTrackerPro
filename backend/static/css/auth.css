@@ -1,4 +1,4 @@
-/* Login Container */
+/* LOGIN CONTAINER */
 
 .login-container {
     width: 100%;
@@ -8,7 +8,7 @@
     padding: 20px;
 }
 
-/* Card */
+/* CARD */
 
 .login-card {
     background: var(--card-color);
@@ -18,7 +18,7 @@
     box-shadow: 0 15px 40px rgba(0,0,0,0.08);
 }
 
-/* Title */
+/* TITLE */
 
 .login-card h1 {
     text-align: center;
@@ -27,7 +27,7 @@
     font-size: 32px;
 }
 
-/* Tagline */
+/* TAGLINE */
 
 .tagline {
     text-align: center;
@@ -35,7 +35,7 @@
     margin-bottom: 35px;
 }
 
-/* Labels */
+/* LABELS */
 
 label {
     display: block;
@@ -45,7 +45,7 @@ label {
     font-weight: bold;
 }
 
-/* Inputs */
+/* INPUTS */
 
 input,
 select{
@@ -64,7 +64,7 @@ select:focus{
     border-color:var(--primary);
 }
 
-/* Register Text */
+/* REGISTER TEXT */
 
 .register-text {
     text-align: center;
@@ -78,7 +78,7 @@ select:focus{
     font-weight: bold;
 }
 
-/* Login & Register Form Button Spacing */
+/* LOGIN & REGISTER FORM BUTTON SPACING */
 
 .login-card form button{
 

@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,99 +9,65 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
 <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
 </head>
 
 <body>
 
 <div class="app-layout">
-
     <aside class="sidebar">
-
         <div class="logo">
             <h2>💰 ExpenseTracker Pro</h2>
             <p>Personal Finance</p>
         </div>
-
         <nav class="sidebar-menu">
-
             <a href="/dashboard">📊 Dashboard</a>
-
             <a class="active" href="/expenses-page">
                 💳 Expenses
             </a>
-
             <a href="/analytics">
                 📈 Analytics
             </a>
-
             <a href="/budgets">
                 🎯 Budgets
             </a>
-
             <a href="/settings">
                 ⚙️ Settings
             </a>
-
             <a href="#" id="logoutBtn">
                 🚪 Logout
             </a>
-
         </nav>
-
     </aside>
 
     <main class="main-content">
-
         <div class="topbar">
-
             <div>
-
                 <h1>All Expenses</h1>
-
                 <p class="welcome-text">
                     Manage all your expenses here.
                 </p>
-
             </div>
-
             <div class="topbar-actions">
-
                 <button onclick="window.location.href='/add-expense'">
-
                     + Add Expense
-
                 </button>
-
                 <button onclick="window.location.href='/export-expenses'">
-
                     📥 Export CSV
-
                 </button>
-
             </div>
-
         </div>
-
         <div class="filters">
-
             <input
                 type="text"
                 id="searchInput"
                 placeholder="🔍 Search expenses..."
             >
-
             <select id="categoryFilter">
-
                 <option value="">All Categories</option>
-
                 <option>Food</option>
                 <option>Transport</option>
                 <option>Shopping</option>
@@ -111,31 +76,21 @@
                 <option>Health</option>
                 <option>Education</option>
                 <option>Other</option>
-
             </select>
-
             <select id="sortFilter">
-
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
                 <option value="highest">Highest Amount</option>
                 <option value="lowest">Lowest Amount</option>
-
             </select>
-
         </div>
-
         <div id="expenseList" class="expense-list">
-
             <div class="loading-card">
                 <div class="loader"></div>
                 <p>Loading expenses...</p>
             </div>
-
         </div>
-
     </main>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

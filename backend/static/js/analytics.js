@@ -71,13 +71,9 @@ async function loadAnalytics() {
         type: "pie",
 
         data: {
-
             labels: Object.keys(categoryTotals),
-
             datasets: [{
-
                 data: Object.values(categoryTotals),
-
                 backgroundColor: [
                     "#60A5FA",
                     "#34D399",
@@ -94,21 +90,13 @@ async function loadAnalytics() {
         },
 
         options: {
-
             responsive: true,
-
             plugins: {
-
                 legend: {
-
                     position: "bottom"
-
                 }
-
             }
-
         }
-
     });
 
     new Chart(document.getElementById("monthlyChart"), {
@@ -116,51 +104,29 @@ async function loadAnalytics() {
         type: "bar",
 
         data: {
-
             labels: Object.keys(monthlyTotals),
-
             datasets: [{
-
                 label: "Monthly Spending",
-
                 data: Object.values(monthlyTotals),
-
                 backgroundColor: "#7C8CF8",
-
                 borderRadius: 8
-
             }]
-
         },
-
+        
         options: {
-
             responsive: true,
-
             plugins: {
-
                 legend: {
-
                     display: false
-
                 }
-
             },
-
             scales: {
-
                 y: {
-
                     beginAtZero: true
-
                 }
-
             }
-
         }
-
     });
-
 }
 
 loadAnalytics();

@@ -19,49 +19,35 @@ registerForm.addEventListener("submit", async function (event) {
     submitButton.textContent = "Creating Account...";
 
     try {
-
         const response = await fetch("/register", {
-
             method: "POST",
-
             headers: {
                 "Content-Type": "application/json"
             },
-
             body: JSON.stringify({
                 name,
                 email,
                 password
             })
-
         });
 
         const data = await response.json();
 
         if (data.success) {
-
             showToast(data.message, "success");
-
-            // Wait a moment so the user can see the toast
             setTimeout(() => {
                 window.location.href = "/";
             }, 1200);
-
         } else {
-
             submitButton.disabled = false;
             submitButton.textContent = "Create Account";
             showToast(data.message, "error");
-
         }
 
     } catch (error) {
-
         console.error(error);
         submitButton.disabled = false;
         submitButton.textContent = "Create Account";
         showToast("Something went wrong.", "error");
-
     }
-
 });

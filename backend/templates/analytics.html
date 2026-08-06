@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,149 +9,85 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
 </head>
 
 <body>
 
 <div class="app-layout">
-
-    <!-- Sidebar -->
-
     <aside class="sidebar">
-
         <div class="logo">
-
             <h2>💰 ExpenseTracker Pro</h2>
-
             <p>Personal Finance</p>
-
         </div>
-
         <nav class="sidebar-menu">
-
             <a href="/dashboard">
                 📊 Dashboard
             </a>
-
             <a href="/expenses-page">
                 💳 Expenses
             </a>
-
             <a href="/analytics" class="active">
                 📈 Analytics
             </a>
-
             <a href="/budgets">
                 🎯 Budgets
             </a>
-
             <a href="/settings">
                 ⚙️ Settings
             </a>
-
             <a href="#" id="logoutBtn">
                 🚪 Logout
             </a>
-
         </nav>
-
     </aside>
 
-    <!-- Main Content -->
-
     <main class="main-content">
-
         <header class="topbar">
-
             <div>
-
                 <h1>Analytics</h1>
-
                 <p class="welcome-text">
                     Visualize your spending habits.
                 </p>
-
             </div>
-
         </header>
 
-        <!-- Summary Cards -->
-
         <section class="cards">
-
             <div class="card total-card">
-
                 <div class="card-icon">💰</div>
-
                 <div>
-
                     <h3>Total Expenses</h3>
-
                     <h2 id="analyticsTotal">₹0.00</h2>
-
                 </div>
-
             </div>
-
             <div class="card month-card">
-
                 <div class="card-icon">📅</div>
-
                 <div>
-
                     <h3>This Month</h3>
-
                     <h2 id="analyticsMonth">₹0.00</h2>
-
                 </div>
-
             </div>
-
             <div class="card category-card">
-
                 <div class="card-icon">🏆</div>
-
                 <div>
-
                     <h3>Top Category</h3>
-
                     <h2 id="topCategory">-</h2>
-
                 </div>
-
             </div>
-
         </section>
-
-        <!-- Charts -->
 
         <section class="analytics-grid">
-
             <div class="card chart-card">
-
                 <canvas id="categoryChart"></canvas>
-
             </div>
-
             <div class="card chart-card">
-
                 <canvas id="monthlyChart"></canvas>
-
             </div>
-
         </section>
-
     </main>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

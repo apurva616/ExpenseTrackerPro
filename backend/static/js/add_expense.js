@@ -22,13 +22,10 @@ expenseForm.addEventListener("submit", async function(event){
     try{
 
         const response = await fetch("/add-expense",{
-
             method:"POST",
-
             headers:{
                 "Content-Type":"application/json"
             },
-
             body:JSON.stringify({
                 title,
                 amount,
@@ -54,12 +51,10 @@ expenseForm.addEventListener("submit", async function(event){
         }
 
     }catch(error){
-
         console.error(error);
         submitButton.disabled = false;
         submitButton.textContent = "Add Expense";
         showToast("Something went wrong.", "error");
-
     }
 
 });

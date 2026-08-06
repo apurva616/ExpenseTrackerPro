@@ -1,6 +1,4 @@
-/* =========================================
-   APP LAYOUT
-========================================= */
+/* APP LAYOUT */
 
 .app-layout{
     display:flex;
@@ -8,9 +6,7 @@
     background:var(--bg-color);
 }
 
-/* =========================================
-   SIDEBAR
-========================================= */
+/* SIDEBAR */
 
 .sidebar{
     width:270px;
@@ -79,18 +75,14 @@
     color:white;
 }
 
-/* =========================================
-   MAIN CONTENT
-========================================= */
+/* MAIN CONTENT */
 
 .main-content{
     flex:1;
     padding:35px;
 }
 
-/* =========================================
-   TOPBAR
-========================================= */
+/* TOPBAR */
 
 .topbar{
     display:flex;
@@ -123,9 +115,7 @@
     font-weight:600;
 }
 
-/* =========================================
-   RECENT EXPENSES
-========================================= */
+/* RECENT EXPENSES */
 
 .recent-expenses{
     background:var(--card-color);
@@ -145,9 +135,7 @@
     margin:0;
 }
 
-/* =========================================
-   EMPTY STATE
-========================================= */
+/* EMPTY STATE */
 
 .empty-card{
     background:var(--card-color);
@@ -165,9 +153,7 @@
     color:var(--text-secondary);
 }
 
-/* =========================================
-   SMOOTH ANIMATIONS
-========================================= */
+/* SMOOTH ANIMATIONS */
 
 input,
 select{
@@ -178,9 +164,7 @@ canvas{
     max-width:100%;
 }
 
-/* =========================================
-   SCROLLBAR
-========================================= */
+/* SCROLLBAR */
 
 ::-webkit-scrollbar{
     width:10px;

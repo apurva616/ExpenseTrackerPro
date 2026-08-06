@@ -7,21 +7,13 @@ addExpenseBtn.addEventListener("click", () => {
 async function loadExpenses() {
 
     try {
-
         const response = await fetch("/expenses");
-
         console.log("Status:", response.status);
-
         const expenses = await response.json();
-
         console.log(expenses);
-
         const expenseList = document.getElementById("expenseList");
-
         console.log("expenseList element:", expenseList);
-
         expenseList.innerHTML = "";
-
 
         let total = 0;
         let monthly = 0;
@@ -35,25 +27,18 @@ async function loadExpenses() {
         const currentYear = today.getFullYear();
 
         if (expenses.length === 0) {
-
             expenseList.innerHTML = `
                 <div class="empty-state">
-
                     <div class="empty-icon">📂</div>
-
                     <h2>No Expenses Yet</h2>
-
                     <p>
                         Add your first expense to start tracking your spending.
                     </p>
-
                     <button onclick="window.location.href='/add-expense'">
                         + Add First Expense
                     </button>
-
                 </div>
             `;
-
             console.log("expenseList cleared");
 
             document.getElementById("totalExpense").textContent = "₹0.00";
@@ -67,7 +52,6 @@ async function loadExpenses() {
             const oldMessage = document.getElementById("emptyChartMessage");
 
             if (!oldMessage) {
-
                 chartCanvas.insertAdjacentHTML(
                     "afterend",
                     `
@@ -78,12 +62,9 @@ async function loadExpenses() {
                     </div>
                     `
                 );
-
             }
-
             return;
         }
-
         expenses.forEach(expense => {
 
             total += Number(expense.amount);
@@ -105,25 +86,17 @@ async function loadExpenses() {
             }
 
             expenseList.innerHTML += `
-
             <div class="expense-card">
-
                 <div class="expense-left">
-
                     <h3>${expense.title}</h3>
-
                     <p>
                         <span class="category-badge ${expense.category.toLowerCase()}">
                             ${expense.category}
                         </span>
                     </p>
-
                 </div>
-
                 <div class="expense-right">
-
                     <h2>₹${Number(expense.amount).toFixed(2)}</h2>
-
                     <p>
                     📅 ${new Date(expense.expense_date).toLocaleDateString("en-GB", {
                         day: "2-digit",
@@ -131,29 +104,19 @@ async function loadExpenses() {
                         year: "numeric"
                     })}
                     </p>
-
                     <div class="expense-actions">
-
                         <button onclick="editExpense(${expense.id})">
                             ✏️ Edit
                         </button>
-
                         <button
                             class="delete-btn"
                             onclick="deleteExpense(${expense.id})">
-
                             🗑 Delete
-
                         </button>
-
                     </div>
-
                 </div>
-
             </div>
-
             `;
-
         });
 
         document.getElementById("totalExpense").textContent =
@@ -198,10 +161,8 @@ async function loadExpenses() {
         });
 
     } catch (error) {
-
             console.error(error);
             alert(error.message);
-
         }
 }
 
@@ -224,7 +185,6 @@ async function deleteExpense(id) {
     }
 
     try {
-
         const response = await fetch(`/delete-expense/${id}`, {
             method: "DELETE"
         });
@@ -236,17 +196,11 @@ async function deleteExpense(id) {
         await loadExpenses();
 
     } catch (error) {
-
         console.error(error);
-
         showToast("Failed to delete expense.", "error");
-
     }
-
 }
 
 function editExpense(id) {
-
     window.location.href = `/edit-expense/${id}`;
-
 }

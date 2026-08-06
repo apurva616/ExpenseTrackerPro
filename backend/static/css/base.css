@@ -1,4 +1,4 @@
-/* Reset */
+/* RESET */
 
 * {
     margin: 0;
@@ -6,7 +6,7 @@
     box-sizing: border-box;
 }
 
-/* Body */
+/* BODY */
 
 body{
     margin:0;
@@ -16,7 +16,7 @@ body{
     transition:var(--transition);
 }
 
-/* Loading */
+/* LOADING */
 
 .loading-card{
     display:flex;

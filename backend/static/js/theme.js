@@ -16,17 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.classList.toggle("dark");
 
         if (document.body.classList.contains("dark")) {
-
             localStorage.setItem("theme", "dark");
             themeToggle.textContent = "☀️";
-
         } else {
-
             localStorage.setItem("theme", "light");
             themeToggle.textContent = "🌙";
-
         }
-
     });
-
 });

@@ -1,6 +1,4 @@
-/* ==========================
-   LIGHT THEME (Default)
-========================== */
+/* LIGHT THEME (Default) */
 
 :root{
     --bg-color:#F8FAFC;
@@ -27,9 +25,7 @@
     --transition:.3s ease;
 }
 
-/* ==========================
-   DARK THEME
-========================== */
+/* DARK THEME */
 
 body.dark{
     --bg-color:#0F172A;

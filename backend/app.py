@@ -11,7 +11,6 @@ from flask import (
 import csv
 from io import StringIO
 from flask import make_response
-
 from datetime import datetime
 
 import os
@@ -20,7 +19,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from database import get_connection
 from models import create_tables
 
@@ -32,20 +30,18 @@ app.secret_key = os.getenv(
 
 create_tables()
 
-
 # ---------------- HOME ---------------- #
 
 @app.route("/")
 def home():
     return render_template("login.html")
 
+# ---------------- AUTHENTICATION ---------------- #
+# ---------------- Register ---------------- #
 
 @app.route("/register-page")
 def register_page():
     return render_template("register.html")
-
-
-# ---------------- REGISTER ---------------- #
 
 @app.route("/register", methods=["POST"])
 def register():
@@ -74,7 +70,6 @@ def register():
 
     if existing_user:
         connection.close()
-
         return jsonify({
             "success": False,
             "message": "Email already registered."
@@ -99,7 +94,7 @@ def register():
     })
 
 
-# ---------------- LOGIN ---------------- #
+# ---------------- Login ---------------- #
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -147,6 +142,18 @@ def login():
         "message": "Login Successful!"
     })
 
+# ---------------- Logout ---------------- #
+
+@app.route("/logout", methods=["POST"])
+def logout():
+
+    session.clear()
+
+    return jsonify({
+        "success": True,
+        "message": "Logged out successfully!"
+    })
+
 
 # ---------------- DASHBOARD ---------------- #
 
@@ -155,21 +162,30 @@ def dashboard():
 
     if "user_id" not in session:
         return redirect(url_for("home"))
-
     return render_template(
         "dashboard.html",
         user_name=session["user_name"]
     )
 
+# ---------------- EXPENSE ---------------- #
 
-# ---------------- ADD EXPENSE ---------------- #
+@app.route("/expenses-page")
+def expenses_page():
+
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+    return render_template(
+        "expenses.html",
+        user_name=session["user_name"]
+    )
+
+# ---------------- Add Expense ---------------- #
 
 @app.route("/add-expense")
 def add_expense_page():
 
     if "user_id" not in session:
         return redirect(url_for("home"))
-
     return render_template("add_expense.html")
 
 
@@ -211,7 +227,7 @@ def add_expense():
     })
 
 
-# ---------------- GET EXPENSES ---------------- #
+# ---------------- Get Expenses ---------------- #
 
 @app.route("/expenses")
 def get_expenses():
@@ -247,7 +263,7 @@ def get_expenses():
     return jsonify([dict(expense) for expense in expenses])
 
 
-# ---------------- DELETE ---------------- #
+# ---------------- Delete Expenses ---------------- #
 
 @app.route("/delete-expense/<int:expense_id>", methods=["DELETE"])
 def delete_expense(expense_id):
@@ -282,7 +298,7 @@ def delete_expense(expense_id):
     })
 
 
-# ---------------- EDIT ---------------- #
+# ---------------- Edit Expenses ---------------- #
 
 @app.route("/edit-expense/<int:expense_id>")
 def edit_expense_page(expense_id):
@@ -312,11 +328,12 @@ def edit_expense_page(expense_id):
 
     if expense is None:
         return "Expense not found", 404
-
     return render_template(
         "edit_expense.html",
         expense=expense
     )
+
+# ---------------- Update Expenses ---------------- #
 
 
 @app.route("/update-expense/<int:expense_id>", methods=["PUT"])
@@ -364,6 +381,60 @@ def update_expense(expense_id):
         "message": "Expense Updated Successfully!"
     })
 
+# ---------------- Export Expenses ---------------- #
+
+@app.route("/export-expenses")
+def export_expenses():
+
+    if "user_id" not in session:
+        return redirect(url_for("home"))
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    cursor.execute("""
+        SELECT
+            title,
+            amount,
+            category,
+            expense_date
+        FROM expenses
+        WHERE user_id=%s
+        ORDER BY expense_date DESC
+    """, (session["user_id"],))
+
+    expenses = cursor.fetchall()
+
+    connection.close()
+
+    output = StringIO()
+
+    writer = csv.writer(output)
+
+    writer.writerow([
+        "Title",
+        "Amount",
+        "Category",
+        "Date"
+    ])
+
+    for expense in expenses:
+        writer.writerow([
+            expense["title"],
+            expense["amount"],
+            expense["category"],
+            expense["expense_date"]
+        ])
+
+    response = make_response(output.getvalue())
+
+    filename = f"ExpenseTracker_{datetime.now().strftime('%Y-%m-%d')}.csv"
+    response.headers["Content-Disposition"] = \
+        f"attachment; filename={filename}"
+
+    response.headers["Content-Type"] = "text/csv"
+
+    return response
 
 # ---------------- ANALYTICS ---------------- #
 
@@ -372,138 +443,25 @@ def analytics():
 
     if "user_id" not in session:
         return redirect(url_for("home"))
-
     return render_template(
         "analytics.html",
         user_name=session["user_name"]
     )
 
 
-# ---------------- EXPENSE PAGE ---------------- #
-
-@app.route("/expenses-page")
-def expenses_page():
-
-    if "user_id" not in session:
-        return redirect(url_for("home"))
-
-    return render_template(
-        "expenses.html",
-        user_name=session["user_name"]
-    )
+# ---------------- BUDGET ---------------- #
 
 @app.route("/budgets")
 def budgets():
 
     if "user_id" not in session:
         return redirect(url_for("home"))
-
     return render_template(
         "budgets.html",
         user_name=session["user_name"]
     )
 
-
-# ---------------- LOGOUT ---------------- #
-
-@app.route("/logout", methods=["POST"])
-def logout():
-
-    session.clear()
-
-    return jsonify({
-        "success": True,
-        "message": "Logged out successfully!"
-    })
-
-
-# ---------------- USERS ---------------- #
-
-@app.route("/users")
-def users():
-
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    cursor.execute("SELECT * FROM users")
-
-    users = cursor.fetchall()
-
-    connection.close()
-
-    return jsonify([dict(user) for user in users])
-
-@app.errorhandler(404)
-def page_not_found(error):
-
-    return render_template("404.html"), 404
-
-@app.errorhandler(500)
-def internal_server_error(error):
-
-    return render_template("500.html"), 500
-
-@app.route("/save-budget", methods=["POST"])
-def save_budget():
-
-    if "user_id" not in session:
-        return jsonify({
-            "success": False,
-            "message": "Please login first."
-        }), 401
-
-    data = request.get_json()
-
-    budget = data["budget"]
-
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    cursor.execute(
-        """
-        SELECT id
-        FROM budgets
-        WHERE user_id=%s
-        """,
-        (session["user_id"],)
-    )
-
-    existing = cursor.fetchone()
-
-    if existing:
-
-        cursor.execute(
-            """
-            UPDATE budgets
-            SET monthly_budget=%s
-            WHERE user_id=%s
-            """,
-            (
-                budget,
-                session["user_id"]
-            )
-        )
-
-    else:
-
-        cursor.execute(
-            """
-            INSERT INTO budgets(user_id, monthly_budget)
-            VALUES(%s, %s)
-            """,
-            (
-                session["user_id"],
-                budget
-            )
-        )
-
-    connection.commit()
-    connection.close()
-
-    return jsonify({
-        "success": True,
-        "message": "Budget saved successfully!"
-    })
+# ---------------- Get Budget ---------------- #
 
 @app.route("/budget")
 def get_budget():
@@ -548,59 +506,69 @@ def get_budget():
         "spent": float(spent)
     })
 
-@app.route("/export-expenses")
-def export_expenses():
+# ---------------- Save Budget ---------------- #
+
+@app.route("/save-budget", methods=["POST"])
+def save_budget():
 
     if "user_id" not in session:
-        return redirect(url_for("home"))
+        return jsonify({
+            "success": False,
+            "message": "Please login first."
+        }), 401
+
+    data = request.get_json()
+
+    budget = data["budget"]
 
     connection = get_connection()
     cursor = connection.cursor()
 
-    cursor.execute("""
-        SELECT
-            title,
-            amount,
-            category,
-            expense_date
-        FROM expenses
+    cursor.execute(
+        """
+        SELECT id
+        FROM budgets
         WHERE user_id=%s
-        ORDER BY expense_date DESC
-    """, (session["user_id"],))
+        """,
+        (session["user_id"],)
+    )
 
-    expenses = cursor.fetchall()
+    existing = cursor.fetchone()
 
+    if existing:
+        cursor.execute(
+            """
+            UPDATE budgets
+            SET monthly_budget=%s
+            WHERE user_id=%s
+            """,
+            (
+                budget,
+                session["user_id"]
+            )
+        )
+
+    else:
+        cursor.execute(
+            """
+            INSERT INTO budgets(user_id, monthly_budget)
+            VALUES(%s, %s)
+            """,
+            (
+                session["user_id"],
+                budget
+            )
+        )
+
+    connection.commit()
     connection.close()
 
-    output = StringIO()
+    return jsonify({
+        "success": True,
+        "message": "Budget saved successfully!"
+    })
 
-    writer = csv.writer(output)
-
-    writer.writerow([
-        "Title",
-        "Amount",
-        "Category",
-        "Date"
-    ])
-
-    for expense in expenses:
-
-        writer.writerow([
-            expense["title"],
-            expense["amount"],
-            expense["category"],
-            expense["expense_date"]
-        ])
-
-    response = make_response(output.getvalue())
-
-    filename = f"ExpenseTracker_{datetime.now().strftime('%Y-%m-%d')}.csv"
-    response.headers["Content-Disposition"] = \
-        f"attachment; filename={filename}"
-
-    response.headers["Content-Type"] = "text/csv"
-
-    return response
+# ---------------- (SETTINGS) ---------------- #
 
 @app.route("/settings")
 def settings():
@@ -632,6 +600,8 @@ def settings():
         user_email=user["email"]
     )
 
+# ---------------- Update Profile ---------------- #
+
 @app.route("/update-profile", methods=["PUT"])
 def update_profile():
 
@@ -649,7 +619,6 @@ def update_profile():
     connection = get_connection()
     cursor = connection.cursor()
 
-    # Check if another user already uses this email
     cursor.execute(
         """
         SELECT id
@@ -666,9 +635,7 @@ def update_profile():
     existing = cursor.fetchone()
 
     if existing:
-
         connection.close()
-
         return jsonify({
             "success": False,
             "message": "Email already in use."
@@ -699,6 +666,8 @@ def update_profile():
         "success": True,
         "message": "Profile updated successfully!"
     })
+
+# ---------------- Change Password ---------------- #
 
 @app.route("/change-password", methods=["PUT"])
 def change_password():
@@ -761,6 +730,16 @@ def change_password():
         "success": True,
         "message": "Password updated successfully!"
     })
+
+# ---------------- (ERROR HANDLERS) ---------------- #
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
+
+@app.errorhandler(500)
+def internal_server_error(error):
+    return render_template("500.html"), 500
 
 if __name__ == "__main__":
     app.run(debug=True) 

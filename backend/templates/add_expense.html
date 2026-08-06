@@ -2,7 +2,6 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -10,38 +9,26 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-
 </head>
 
 <body>
 
 <div class="login-container">
-
     <div class="login-card">
-
         <h1>💰 Add Expense</h1>
-
         <form id="expenseForm">
-
             <label for="title">Expense Title</label>
-
             <input
                 type="text"
                 id="title"
                 placeholder="e.g. Pizza"
                 required
             >
-
             <label for="amount">Amount (₹)</label>
-
             <input
                 type="number"
                 id="amount"
@@ -50,13 +37,9 @@
                 min="0.01"
                 required
             >
-
             <label for="category">Category</label>
-
             <select id="category" required>
-
                 <option value="">Select Category</option>
-
                 <option>Food</option>
                 <option>Transport</option>
                 <option>Shopping</option>
@@ -65,31 +48,22 @@
                 <option>Health</option>
                 <option>Education</option>
                 <option>Other</option>
-
             </select>
-
             <label for="expense_date">Date</label>
-
             <input
                 type="date"
                 id="expense_date"
                 required
             >
-
             <button type="submit">
                 Add Expense
             </button>
-
         </form>
-
         <br>
-
         <a href="/dashboard">
             ← Back to Dashboard
         </a>
-
     </div>
-
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
