@@ -14,8 +14,8 @@
     background: var(--card-color);
     width: 420px;
     padding: 40px;
-    border-radius: 18px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
 /* TITLE */
@@ -31,7 +31,7 @@
 
 .tagline {
     text-align: center;
-    color: #64748B;
+    color: var(--text-secondary);
     margin-bottom: 35px;
 }
 
@@ -69,11 +69,11 @@ select:focus{
 .register-text {
     text-align: center;
     margin-top: 25px;
-    color: #64748B;
+    color: var(--text-secondary);
 }
 
 .register-text a {
-    color: #2563EB;
+    color: var(--primary);
     text-decoration: none;
     font-weight: bold;
 }

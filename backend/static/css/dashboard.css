@@ -66,7 +66,7 @@
 
 .sidebar-menu a:last-child{
     margin-top:auto;
-    background:rgba(248,113,113,.12);
+    background:color-mix(in srgb, var(--danger) 12%, transparent);
     color:var(--danger);
 }
 
@@ -193,16 +193,9 @@ canvas{
 .chart-card{
     background:var(--card-color);
     padding:25px;
-    border-radius:20px;
+    border-radius:var(--radius);
     box-shadow:var(--shadow);
-}
-
-.chart-card {
-    background: white;
-    padding: 25px;
-    margin-bottom: 25px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    margin-bottom:25px;
 }
 
 .chart-card h2 {

@@ -19,7 +19,26 @@ button:hover{
 }
 
 .delete-btn:hover{
+    background:var(--danger);
     filter: brightness(0.9);
+    transform:translateY(-2px);
+}
+
+[data-lucide] {
+    width: 16px;
+    height: 16px;
+    vertical-align: -3px;
+}
+
+.card-icon [data-lucide] {
+    width: 32px;
+    height: 32px;
+}
+
+.login-card h1 [data-lucide] {
+    width: 28px;
+    height: 28px;
+    vertical-align: -5px;
 }
 
 #themeToggle{

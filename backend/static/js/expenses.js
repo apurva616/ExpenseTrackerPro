@@ -15,7 +15,7 @@ async function loadExpenses() {
         if (expenses.length === 0) {
             expenseList.innerHTML = `
             <div class="empty-state">
-                <div class="empty-icon">💸</div>
+                <div class="empty-icon"><i data-lucide="wallet"></i></div>
                 <h2>No Expenses Yet</h2>
                 <p>
                     Start tracking your spending by adding your first expense.
@@ -26,6 +26,7 @@ async function loadExpenses() {
                 </button>
             </div>
             `;
+            lucide.createIcons();
             return;
         }
 
@@ -90,7 +91,7 @@ async function loadExpenses() {
                 <div class="expense-right">
                     <h2>₹${Number(expense.amount).toFixed(2)}</h2>
                     <p>
-                        📅 ${new Date(expense.expense_date).toLocaleDateString(
+                        <i data-lucide="calendar"></i> ${new Date(expense.expense_date).toLocaleDateString(
                             "en-GB",
                             {
                                 day: "2-digit",
@@ -101,18 +102,20 @@ async function loadExpenses() {
                     </p>
                     <div class="expense-actions">
                         <button onclick="editExpense(${expense.id})">
-                            ✏️ Edit
+                            <i data-lucide="pencil"></i> Edit
                         </button>
                         <button
                             class="delete-btn"
                             onclick="deleteExpense(${expense.id})">
-                            🗑 Delete
+                            <i data-lucide="trash-2"></i> Delete
                         </button>
                     </div>
                 </div>
             </div>
             `;
         });
+
+        lucide.createIcons();
 
     } catch (error) {
         console.error(error);
@@ -124,13 +127,15 @@ loadExpenses();
 
 async function deleteExpense(id) {
 
+    const rootStyles = getComputedStyle(document.documentElement);
+
     const result = await Swal.fire({
         title: "Delete Expense?",
         text: "This expense will be permanently deleted.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#EF4444",
-        cancelButtonColor: "#64748B",
+        confirmButtonColor: rootStyles.getPropertyValue("--danger").trim(),
+        cancelButtonColor: rootStyles.getPropertyValue("--text-secondary").trim(),
         confirmButtonText: "Yes, delete it!"
     });
 

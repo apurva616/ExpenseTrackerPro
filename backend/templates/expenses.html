@@ -20,25 +20,25 @@
 <div class="app-layout">
     <aside class="sidebar">
         <div class="logo">
-            <h2>💰 ExpenseTracker Pro</h2>
+            <h2><i data-lucide="wallet"></i> ExpenseTracker Pro</h2>
             <p>Personal Finance</p>
         </div>
         <nav class="sidebar-menu">
-            <a href="/dashboard">📊 Dashboard</a>
+            <a href="/dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a>
             <a class="active" href="/expenses-page">
-                💳 Expenses
+                <i data-lucide="credit-card"></i> Expenses
             </a>
             <a href="/analytics">
-                📈 Analytics
+                <i data-lucide="bar-chart-2"></i> Analytics
             </a>
             <a href="/budgets">
-                🎯 Budgets
+                <i data-lucide="target"></i> Budgets
             </a>
             <a href="/settings">
-                ⚙️ Settings
+                <i data-lucide="settings"></i> Settings
             </a>
             <a href="#" id="logoutBtn">
-                🚪 Logout
+                <i data-lucide="log-out"></i> Logout
             </a>
         </nav>
     </aside>
@@ -56,7 +56,7 @@
                     + Add Expense
                 </button>
                 <button onclick="window.location.href='/export-expenses'">
-                    📥 Export CSV
+                    <i data-lucide="download"></i> Export CSV
                 </button>
             </div>
         </div>
@@ -64,7 +64,7 @@
             <input
                 type="text"
                 id="searchInput"
-                placeholder="🔍 Search expenses..."
+                placeholder="Search expenses..."
             >
             <select id="categoryFilter">
                 <option value="">All Categories</option>
@@ -96,9 +96,13 @@
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
 <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 <script src="{{ url_for('static', filename='js/expenses.js') }}"></script>
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 

@@ -1,28 +1,24 @@
 /* LIGHT THEME (Default) */
 
 :root{
-    --bg-color:#F8FAFC;
+    --bg-color:#F7FAF9;
     --card-color:#FFFFFF;
-    --sidebar-color:#F1F5F9;
-    --text-color:#1E293B;
-    --text-secondary:#64748B;
-    --border-color:#E2E8F0;
-    --shadow:0 10px 30px rgba(0,0,0,.08);
-
-    --primary:#7C8CF8;
-    --primary-hover:#6574F5;
-
-    --success:#34D399;
-    --warning:#FBBF24;
-    --danger:#F87171;
-    --info:#7DD3FC;
-
-    --expense-card:#E0F2FE;
-    --month-card:#DCFCE7;
-    --category-card:#FEF3C7;
-
-    --radius:18px;
-    --transition:.3s ease;
+    --sidebar-color:#EEF5F2;
+    --text-color:#1F2E2A;
+    --text-secondary:#5B6D67;
+    --border-color:#DCE7E3;
+    --shadow:0 4px 14px rgba(31,46,42,.06);
+    --primary:#5B8C7B;
+    --primary-hover:#4A7565;
+    --success:#5FA98A;
+    --warning:#D9A441;
+    --danger:#C6605A;
+    --info:#7BA9A0;
+    --expense-card:#E4F0EC;
+    --month-card:#DCEAE4;
+    --category-card:#EFF3E9;
+    --radius:12px;
+    --transition:.2s ease;
 }
 
 /* DARK THEME */

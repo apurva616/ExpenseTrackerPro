@@ -98,3 +98,27 @@
     color:#777;
     margin-bottom:25px;
 }
+
+/* Fade-in for cards on load */
+.card {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.4s ease forwards;
+}
+
+.card:nth-child(1) { animation-delay: 0s; }
+.card:nth-child(2) { animation-delay: 0.08s; }
+.card:nth-child(3) { animation-delay: 0.16s; }
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+[data-lucide] {
+    width: 16px;
+    height: 16px;
+    vertical-align: -3px;
+}

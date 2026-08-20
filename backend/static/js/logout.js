@@ -3,13 +3,16 @@ const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
 
     logoutBtn.addEventListener("click", async () => {
+
+        const rootStyles = getComputedStyle(document.documentElement);
+
         const result = await Swal.fire({
             title: "Logout?",
             text: "You will need to login again.",
             icon: "question",
             showCancelButton: true,
-            confirmButtonColor: "#7C8CF8",
-            cancelButtonColor: "#64748B",
+            confirmButtonColor: rootStyles.getPropertyValue("--primary").trim(),
+            cancelButtonColor: rootStyles.getPropertyValue("--text-secondary").trim(),
             confirmButtonText: "Logout"
         });
 

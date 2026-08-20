@@ -20,27 +20,27 @@
 <div class="app-layout">
     <aside class="sidebar">
         <div class="logo">
-            <h2>💰 ExpenseTracker Pro</h2>
+            <h2><i data-lucide="wallet"></i> ExpenseTracker Pro</h2>
             <p>Personal Finance</p>
         </div>
         <nav class="sidebar-menu">
             <a href="/dashboard" class="active">
-                📊 Dashboard
+                <i data-lucide="layout-dashboard"></i> Dashboard
             </a>
             <a href="/expenses-page">
-                💳 Expenses
+                <i data-lucide="credit-card"></i> Expenses
             </a>
             <a href="/analytics">
-                📈 Analytics
+                <i data-lucide="bar-chart-2"></i> Analytics
             </a>
             <a href="/budgets">
-                🎯 Budgets
+                <i data-lucide="target"></i> Budgets
             </a>
             <a href="/settings">
-                ⚙️ Settings
+                <i data-lucide="settings"></i> Settings
             </a>
             <a href="#" id="logoutBtn">
-                🚪 Logout
+                <i data-lucide="log-out"></i> Logout
             </a>
         </nav>
     </aside>
@@ -48,38 +48,38 @@
     <main class="main-content">
         <header class="topbar">
             <div>
-                <h1>Welcome Back 👋</h1>
+                <h1>Welcome Back</h1>
                 <p class="welcome-text">
                     Track your spending and stay on budget.
                 </p>
             </div>
             <div class="topbar-right">
                 <button id="themeToggle" title="Toggle Theme">
-                    🌙
+                    <i data-lucide="moon"></i>
                 </button>
                 <div class="user">
-                    👤 {{ user_name }}
+                    <i data-lucide="user"></i> {{ user_name }}
                 </div>
             </div>
         </header>
 
         <section class="cards">
             <div class="card total-card">
-                <div class="card-icon">💰</div>
+                <div class="card-icon"><i data-lucide="wallet"></i></div>
                 <div>
                     <h3>Total Expenses</h3>
                     <h2 id="totalExpense">₹0.00</h2>
                 </div>
             </div>
             <div class="card month-card">
-                <div class="card-icon">📅</div>
+                <div class="card-icon"><i data-lucide="calendar"></i></div>
                 <div>
                     <h3>This Month</h3>
                     <h2 id="monthlyExpense">₹0.00</h2>
                 </div>
             </div>
             <div class="card category-card">
-                <div class="card-icon">📂</div>
+                <div class="card-icon"><i data-lucide="folder"></i></div>
                 <div>
                     <h3>Categories</h3>
                     <h2 id="categoryCount">0</h2>
@@ -112,9 +112,14 @@
 <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
 <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 

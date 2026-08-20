@@ -8,19 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!themeToggle) return;
 
-    themeToggle.textContent =
-        document.body.classList.contains("dark") ? "☀️" : "🌙";
+    function setIcon(isDark) {
+        themeToggle.innerHTML = isDark
+            ? '<i data-lucide="sun"></i>'
+            : '<i data-lucide="moon"></i>';
+        lucide.createIcons();
+    }
+
+    setIcon(document.body.classList.contains("dark"));
 
     themeToggle.addEventListener("click", () => {
 
         document.body.classList.toggle("dark");
 
-        if (document.body.classList.contains("dark")) {
-            localStorage.setItem("theme", "dark");
-            themeToggle.textContent = "☀️";
-        } else {
-            localStorage.setItem("theme", "light");
-            themeToggle.textContent = "🌙";
-        }
+        const isDark = document.body.classList.contains("dark");
+
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+
+        setIcon(isDark);
     });
 });

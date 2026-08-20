@@ -19,7 +19,7 @@
 
 <div class="login-container">
     <div class="login-card">
-        <h1>✏️ Edit Expense</h1>
+        <h1><i data-lucide="pencil"></i> Edit Expense</h1>
         <form id="editExpenseForm">
             <input
                 type="hidden"
@@ -66,14 +66,18 @@
         </form>
         <br>
         <a href="/dashboard">
-            ← Back to Dashboard
+            <i data-lucide="arrow-left"></i> Back to Dashboard
         </a>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="{{ url_for('static', filename='js/edit_expense.js') }}"></script>
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 

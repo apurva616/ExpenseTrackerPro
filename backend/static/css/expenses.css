@@ -21,7 +21,7 @@
 
 .expense-card:hover{
     transform:translateY(-6px);
-    box-shadow:0 18px 40px rgba(0,0,0,.12);
+    box-shadow:0 12px 28px rgba(31,46,42,.10);
 }
 
 .expense-left h3{
@@ -77,49 +77,49 @@
 /* FOOD */
 
 .food{
-    background:#DCFCE7;
-    color:#166534;
+    background:#E3EFE6;
+    color:#3F6B4C;
 }
 
 /* SHOPPING */
 
 .shopping{
-    background:#F3E8FF;
-    color:#7E22CE;
+    background:#EAE3EF;
+    color:#6B4C7A;
 }
 
 /* TRANSPORT */
 
 .transport{
-    background:#DBEAFE;
-    color:#1D4ED8;
+    background:#DFE8EA;
+    color:#39616B;
 }
 
 /* FUEL */
 
 .fuel{
-    background:#FFEDD5;
-    color:#C2410C;
+    background:#F1E7DA;
+    color:#8A5A2B;
 }
 
 /* BILLS */
 
 .bills{
-    background:#FEE2E2;
-    color:#B91C1C;
+    background:#F0E0DE;
+    color:#96473F;
 }
 
 /* ENTERTAINMENT */
 
 .entertainment{
-    background:#FEF3C7;
-    color:#B45309;
+    background:#F2ECD9;
+    color:#7A6425;
 }
 
 /* DEFAULT */
 .category-badge:not(.food):not(.shopping):not(.transport):not(.fuel):not(.bills):not(.entertainment){
-    background:#E2E8F0;
-    color:#334155;
+    background:var(--border-color);
+    color:var(--text-secondary);
 }
 
 /* FILTERS */
@@ -146,7 +146,7 @@
 .filters input:focus{
     outline:none;
     border-color:var(--primary);
-    box-shadow:0 0 0 4px rgba(124,140,248,.15);
+    box-shadow:0 0 0 4px color-mix(in srgb, var(--primary) 15%, transparent);
 }
 
 .filters select{

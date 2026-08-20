@@ -20,16 +20,16 @@
 <div class="app-layout">
     <aside class="sidebar">
         <div class="logo">
-            <h2>💰 ExpenseTracker Pro</h2>
+            <h2><i data-lucide="wallet"></i> ExpenseTracker Pro</h2>
             <p>Personal Finance</p>
         </div>
         <nav class="sidebar-menu">
-            <a href="/dashboard">📊 Dashboard</a>
-            <a href="/expenses-page">💳 Expenses</a>
-            <a href="/analytics">📈 Analytics</a>
-            <a href="/budgets">🎯 Budgets</a>
-            <a class="active" href="/settings">⚙️ Settings</a>
-            <a href="#" id="logoutBtn">🚪 Logout</a>
+            <a href="/dashboard"><i data-lucide="layout-dashboard"></i> Dashboard</a>
+            <a href="/expenses-page"><i data-lucide="credit-card"></i> Expenses</a>
+            <a href="/analytics"><i data-lucide="bar-chart-2"></i> Analytics</a>
+            <a href="/budgets"><i data-lucide="target"></i> Budgets</a>
+            <a class="active" href="/settings"><i data-lucide="settings"></i> Settings</a>
+            <a href="#" id="logoutBtn"><i data-lucide="log-out"></i> Logout</a>
         </nav>
     </aside>
     <main class="main-content">
@@ -87,9 +87,13 @@
 <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 <script src="{{ url_for('static', filename='js/toast.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
 <script src="{{ url_for('static', filename='js/logout.js') }}"></script>
 <script src="{{ url_for('static', filename='js/theme.js') }}"></script>
 <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+<script>
+    lucide.createIcons();
+</script>
 
 </body>
 

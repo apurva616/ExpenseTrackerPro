@@ -1,18 +1,18 @@
-# 💸 ExpenseTracker Pro
+# ExpenseTracker Pro
 
 A modern full-stack expense management application built with **Flask**, **PostgreSQL**, and **JavaScript** that helps users manage their finances through budgeting, spending analytics, and interactive dashboards.
 
 ---
 
-## 🌐 Live Demo
+## Live Demo
 
 **Website:** https://expensetrackerpro-3vh9.onrender.com/
 
 ---
 
-# ✨ Features
+# Features
 
-### 🔐 Authentication
+### Authentication
 
 * User Registration
 * Secure Login & Logout
@@ -21,7 +21,7 @@ A modern full-stack expense management application built with **Flask**, **Postg
 * Change Password
 * Update Profile
 
-### 💰 Expense Management
+### Expense Management
 
 * Add Expenses
 * Edit Expenses
@@ -30,7 +30,7 @@ A modern full-stack expense management application built with **Flask**, **Postg
 * Filter by Category
 * Sort by Date & Amount
 
-### 📊 Dashboard
+### Dashboard
 
 * Total Expenses
 * Monthly Spending
@@ -38,21 +38,21 @@ A modern full-stack expense management application built with **Flask**, **Postg
 * Expense-by-Category Pie Chart
 * Empty State UI
 
-### 📈 Analytics
+### Analytics
 
 * Monthly Spending Overview
 * Category Distribution
 * Top Spending Category
 * Interactive Charts powered by Chart.js
 
-### 🎯 Budget Management
+### Budget Management
 
 * Set Monthly Budget
 * Remaining Budget Calculation
 * Budget Progress Bar
 * Budget Warning Notifications
 
-### 🎨 User Experience
+### User Experience
 
 * Responsive Design
 * Dark Mode
@@ -62,7 +62,7 @@ A modern full-stack expense management application built with **Flask**, **Postg
 
 ---
 
-# 🛠 Tech Stack
+# Tech Stack
 
 ## Frontend
 
@@ -94,7 +94,7 @@ A modern full-stack expense management application built with **Flask**, **Postg
 
 ---
 
-# 🚀 Getting Started
+# Getting Started
 
 ## Clone the repository
 
@@ -151,11 +151,17 @@ python backend/app.py
 
 ---
 
-# 📸 Screenshots
+# Screenshots
 
 ## Login
 
 ![Login](screenshots/Login.png)
+
+---
+
+## Register
+
+![Register](screenshots/Register.png)
 
 ---
 
@@ -191,7 +197,13 @@ python backend/app.py
 
 ---
 
-# 📌 Future Improvements
+## Logout
+
+![Logout](screenshots/Logout.png)
+
+---
+
+# Future Improvements
 
 * Export expenses to PDF/Excel
 * Recurring expense reminders
@@ -202,7 +214,7 @@ python backend/app.py
 
 ---
 
-# 🎯 What I Learned
+# What I Learned
 
 While building this project I gained hands-on experience with:
 
@@ -218,14 +230,14 @@ While building this project I gained hands-on experience with:
 
 ---
 
-# 📄 License
+# License
 
 This project is intended for educational and portfolio purposes.
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Apurva .R**
 
-If you found this project helpful, feel free to ⭐ the repository.
+If you found this project helpful, feel free to star the repository.

@@ -53,10 +53,12 @@ async function loadBudget() {
 
     remainingElement.textContent = `₹${remaining.toFixed(2)}`;
 
+    const rootStyles = getComputedStyle(document.documentElement);
+
     if (remaining < 0) {
-        remainingElement.style.color = "#dc2626";
+        remainingElement.style.color = rootStyles.getPropertyValue("--danger").trim();
     } else {
-        remainingElement.style.color = "#16a34a";
+        remainingElement.style.color = rootStyles.getPropertyValue("--success").trim();
     }
 
     const progressBar = document.getElementById("budgetProgress");
@@ -75,11 +77,11 @@ async function loadBudget() {
     progressBar.style.width = percentage + "%";
 
     if (percentage < 70) {
-        progressBar.style.background = "#4CAF50";
+        progressBar.style.background = rootStyles.getPropertyValue("--success").trim();
     } else if (percentage < 90) {
-        progressBar.style.background = "#FFC107";
+        progressBar.style.background = rootStyles.getPropertyValue("--warning").trim();
     } else {
-        progressBar.style.background = "#F44336";
+        progressBar.style.background = rootStyles.getPropertyValue("--danger").trim();
     }
 
     progressText.textContent = `${percentage.toFixed(1)}% of your budget used`;
@@ -87,8 +89,8 @@ async function loadBudget() {
     const warning = document.getElementById("budgetWarning");
 
     if (remaining < 0) {
-        warning.textContent = "⚠️ You have exceeded your monthly budget!";
-        warning.style.color = "#dc2626";
+        warning.textContent = "You have exceeded your monthly budget!";
+        warning.style.color = rootStyles.getPropertyValue("--danger").trim();
         warning.style.fontWeight = "600";
     } else {
         warning.textContent = "";

@@ -1,3 +1,29 @@
+// Animates a number from 0 up to its target value
+function countUp(element, target, duration = 800, isCurrency = true) {
+    const startTime = performance.now();
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3); // ease-out
+
+        const value = target * eased;
+        element.textContent = isCurrency
+            ? `₹${value.toFixed(2)}`
+            : Math.round(value);
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = isCurrency
+                ? `₹${target.toFixed(2)}`
+                : target;
+        }
+    }
+
+    requestAnimationFrame(update);
+}
+
 const addExpenseBtn = document.getElementById("addExpenseBtn");
 
 addExpenseBtn.addEventListener("click", () => {
@@ -29,7 +55,7 @@ async function loadExpenses() {
         if (expenses.length === 0) {
             expenseList.innerHTML = `
                 <div class="empty-state">
-                    <div class="empty-icon">📂</div>
+                    <div class="empty-icon"><i data-lucide="folder-open"></i></div>
                     <h2>No Expenses Yet</h2>
                     <p>
                         Add your first expense to start tracking your spending.
@@ -56,13 +82,15 @@ async function loadExpenses() {
                     "afterend",
                     `
                     <div id="emptyChartMessage" class="empty-chart">
-                        📊 <br>
+                        <i data-lucide="bar-chart-2"></i><br>
                         No expense data yet.<br>
                         Add your first expense to see spending by category.
                     </div>
                     `
                 );
             }
+
+            lucide.createIcons();
             return;
         }
         expenses.forEach(expense => {
@@ -98,7 +126,7 @@ async function loadExpenses() {
                 <div class="expense-right">
                     <h2>₹${Number(expense.amount).toFixed(2)}</h2>
                     <p>
-                    📅 ${new Date(expense.expense_date).toLocaleDateString("en-GB", {
+                    <i data-lucide="calendar"></i> ${new Date(expense.expense_date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric"
@@ -106,12 +134,12 @@ async function loadExpenses() {
                     </p>
                     <div class="expense-actions">
                         <button onclick="editExpense(${expense.id})">
-                            ✏️ Edit
+                            <i data-lucide="pencil"></i> Edit
                         </button>
                         <button
                             class="delete-btn"
                             onclick="deleteExpense(${expense.id})">
-                            🗑 Delete
+                            <i data-lucide="trash-2"></i> Delete
                         </button>
                     </div>
                 </div>
@@ -119,14 +147,9 @@ async function loadExpenses() {
             `;
         });
 
-        document.getElementById("totalExpense").textContent =
-            `₹${total.toFixed(2)}`;
-
-        document.getElementById("monthlyExpense").textContent =
-            `₹${monthly.toFixed(2)}`;
-
-        document.getElementById("categoryCount").textContent =
-            categories.size;
+        countUp(document.getElementById("totalExpense"), total);
+        countUp(document.getElementById("monthlyExpense"), monthly);
+        countUp(document.getElementById("categoryCount"), categories.size, 600, false);
 
         const chartCanvas = document.getElementById("categoryChart");
 
@@ -160,6 +183,8 @@ async function loadExpenses() {
             }
         });
 
+        lucide.createIcons();
+
     } catch (error) {
             console.error(error);
             alert(error.message);
@@ -170,13 +195,15 @@ loadExpenses();
 
 async function deleteExpense(id) {
 
+    const rootStyles = getComputedStyle(document.documentElement);
+
     const result = await Swal.fire({
         title: "Delete Expense?",
         text: "This expense will be permanently deleted.",
         icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: "#EF4444",
-        cancelButtonColor: "#64748B",
+        confirmButtonColor: rootStyles.getPropertyValue("--danger").trim(),
+        cancelButtonColor: rootStyles.getPropertyValue("--text-secondary").trim(),
         confirmButtonText: "Yes, delete it!"
     });
 

@@ -75,16 +75,15 @@ async function loadAnalytics() {
             datasets: [{
                 data: Object.values(categoryTotals),
                 backgroundColor: [
-                    "#60A5FA",
-                    "#34D399",
-                    "#FBBF24",
-                    "#F87171",
-                    "#A78BFA",
-                    "#FB7185",
-                    "#22D3EE",
-                    "#F97316"
+                    "#5B8C7B", 
+                    "#7BA9A0", 
+                    "#9FBFB4", 
+                    "#D9A441", 
+                    "#C6605A", 
+                    "#4A7565", 
+                    "#B7CFC6", 
+                    "#8FA89C"  
                 ]
-
             }]
 
         },
@@ -108,7 +107,7 @@ async function loadAnalytics() {
             datasets: [{
                 label: "Monthly Spending",
                 data: Object.values(monthlyTotals),
-                backgroundColor: "#7C8CF8",
+                backgroundColor: "#5B8C7B",
                 borderRadius: 8
             }]
         },

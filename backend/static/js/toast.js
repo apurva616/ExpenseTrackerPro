@@ -1,20 +1,24 @@
 function showToast(message, type = "success") {
 
+    const rootStyles = getComputedStyle(document.documentElement);
+
     let background;
 
     switch (type) {
         case "success":
-            background = "#22C55E";
+            background = rootStyles.getPropertyValue("--success").trim();
             break;
         case "error":
-            background = "#EF4444";
+            background = rootStyles.getPropertyValue("--danger").trim();
             break;
         case "warning":
-            background = "#F59E0B";
+            background = rootStyles.getPropertyValue("--warning").trim();
             break;
         default:
-            background = "#3B82F6";
+            background = rootStyles.getPropertyValue("--info").trim();
     }
+
+    const radius = rootStyles.getPropertyValue("--radius").trim() || "12px";
 
     Toastify({
         text: message,
@@ -25,7 +29,7 @@ function showToast(message, type = "success") {
         stopOnFocus: true,
         style: {
             background: background,
-            borderRadius: "12px"
+            borderRadius: radius
         }
     }).showToast();
 }
